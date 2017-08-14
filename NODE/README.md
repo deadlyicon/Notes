@@ -70,6 +70,8 @@ fs.rmdirSync('stuff'); //remove dir
 
 
 **Asynchronous version:**
+
+**Creating Folders**
 ```javascript
 var fs = require('fs');
 
