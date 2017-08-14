@@ -51,6 +51,13 @@ var readMe = fs.readFile('readMe.txt', 'utf8', function(err, data){
 * The above is a better way to write your code as it will be faster. This is because it's not blocking and the computer can continue to execute more code while the filesystem is looking up the file.
 
 
+## How to delete files
+
+Easy enough:
+```javascript
+fs.unlink('fileName.txt');
+```
+
 
 ### Creating and Removing Directories with Node
 
