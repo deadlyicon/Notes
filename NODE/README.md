@@ -61,4 +61,16 @@ fs.unlink('fileName.txt');
 
 ### Creating and Removing Directories with Node
 
-This is where I will type the next thing
+**Synchronous version:
+```javascript
+
+fs.mkdirSync('stuff'); //make dir
+fs.rmdirSync('stuff'); //remove dir
+```
+
+
+**Asynchronous version:
+```javascript
+
+
+
