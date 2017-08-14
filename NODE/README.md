@@ -61,7 +61,7 @@ fs.unlink('fileName.txt');
 
 ### Creating and Removing Directories with Node
 
-**Synchronous version:
+**Synchronous version:**
 ```javascript
 
 fs.mkdirSync('stuff'); //make dir
@@ -69,8 +69,32 @@ fs.rmdirSync('stuff'); //remove dir
 ```
 
 
-**Asynchronous version:
+**Asynchronous version:**
 ```javascript
+var fs = require('fs');
+
+fs.mkdir('stuff', function(){
+  fs.readFile('readMe.txt', 'utf8', function(err, data){
+    fs.writeFile('./stuff/writeMe.txt', data);
+  });
+});
+```
+
+1. First, ```fs.mkdir()``` is called and a callback function is provided.
+2. Once the FS completes the task it goes on to ```fs.readFile()```, which then reads the specified file, sets the encoding to....that, and then we pass another call back function
+3. ```fs.readFile()``` is asynchronous so it's callback is ```fs.writeFile()```, which then writes the data to the specified file.
+4. Structuring your code this way is faster at runtime and allows the computer to run the next lines while waiting for the file system to do it's thing.
 
 
+**To remove folders**
+```javascript
+var fs = require('fs');
+
+fs.unlink('./stuff/writeMe.txt', function(){
+  fs.rmdir('stuff');
+});
+```
+
+1. In order to delete folders we must first clear them out. So, first run ```fs.unlink()```, passing it the file to be deleted.
+2. Also, pass the method a callback function, this time use ```fs.rmdir()``` which will delete our folder only after it is empty but in a non-blocking way.
 
