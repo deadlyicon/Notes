@@ -38,7 +38,8 @@ console.log('test');
 ```
 When run you will see that ```test``` output before the contents of the file.
 
-Slightly expanded:
+
+Here is the same code but with the ```writeFile()``` method in place, also asynchronous.
 ```javascript
 var fs = require('fs');
 
