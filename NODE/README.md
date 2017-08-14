@@ -1,13 +1,10 @@
 # Node Notes
 
-
 ## Accessing the File System with Node
-
-You can get access to the file system using the --fs-- module.
+You can get access to the file system using the ```fs``` module.
 
 
 ### Here is the Synchronous method to reading and writing files on the disk:
-
 ```javascript
 var fs = require('fs');
 
@@ -17,16 +14,10 @@ fs.writeFileSync('writeMe.txt', readMe);
 console.log(readMe);
 ```
 
-
-```fs.readFileSync('readMe.txt', 'utf8');``` Is a synchronous method, meaning that it will need to complete before moving on to the next code. This is also knowns as blocking code because it blocks the computer from continuing until it is completed.
-
-* The file name is relative in this example, and ```utf8``` is passed as the second parameter to indicate the type of encoding.
-
-
+```fs.readFileSync('readMe.txt', 'utf8');``` Is a synchronous method, meaning that it will need to complete before moving on to the next code. This is also knowns as blocking code because it blocks the computer from continuing until it is completed. The file name is relative in this example, and ```utf8``` is passed as the second parameter to indicate the type of encoding.
 
 
 ### Here is the Asynchronous method for reading and writing files to disk:
-
 ```javascript
 var fs = require('fs');
 
@@ -35,10 +26,7 @@ var readMe = fs.readFile('readMe.txt', 'utf8', function(err, data){
 });
 ```
 
-```fs.readFile('readMe.txt', 'utf8', function(err, data){};``` is the synchronous method and as such you need to pass it a callback function to run when readFile() has completed. In that function you need to pass it an err, if there was one, and then the data. Finally, the callback function itself does something once readFile() has completed.
-
-* The benefit of asynchronous is that we are not blocking the code below. For example:
-
+```fs.readFile('readMe.txt', 'utf8', function(err, data){};``` is the synchronous method and as such you need to pass it a callback function to run when readFile() has completed. In that function you need to pass it an err, if there was one, and then the data. Finally, the callback function itself does something once readFile() has completed. **The benefit of asynchronous is that we are not blocking the code below. For example:**
 ```javascript
 var fs = require('fs');
 
@@ -48,10 +36,9 @@ var readMe = fs.readFile('readMe.txt', 'utf8', function(err, data){
 
 console.log('test');
 ```
-When run you will see that 'test' output before the contents of the file.
+When run you will see that ```test``` output before the contents of the file.
 
-
-
+Slightly expanded:
 ```javascript
 var fs = require('fs');
 
@@ -64,5 +51,5 @@ var readMe = fs.readFile('readMe.txt', 'utf8', function(err, data){
 
 
 
-### Creating and Remove Directories with Node
+### Creating and Removing Directories with Node
 
