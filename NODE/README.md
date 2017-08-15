@@ -1,4 +1,44 @@
-# Node Notes
+<h3>Index</h3>
+<ul>
+<li><a href="#Modules">Modules</a></li>
+</ul>
+
+
+#What is Node.js?
+Basically anything you could do with PHP or Ruby you can now do with Javascript and Node.js. Node gives Javascript access to the file system, network traffic and all sorts of things normally outside the scrope of the web browser.
+
+###Two basic things are being done with Node.js
+* Building utilities on the Machine.
+* A web server or web application with Node.
+
+###Differences between Node and Javascript
+* Node has a global, global object, while Javascript has a window global object.
+
+
+## Modules
+####or how to pass stuff between files
+How you basically load one file into another. You use ```require()```
+```javascript
+var m2 = require('./folder2/module2');
+console.log(m2.a);
+```
+The above loads module2 into the file as long as module2 has this somwhere:
+```javascript
+var a = 1;
+module.exports.a = a //for example
+```
+
+You could overwrite this export method with your own function:
+```javascript
+module.exports = function(){
+  console.log('Hello There');
+};
+```
+
+
+##NPM. What is it?
+
+
 
 ## Accessing the File System with Node
 You can get access to the file system using the ```fs``` module.
