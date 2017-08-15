@@ -9,6 +9,7 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 3. [Editing the File System](#Editing-the-file-system)
 4. [REPL](#REPL)
 5. [NPM](#NPM)
+6. [HTTP](#HTTP)
 
 * **Two basic things are being done with Node.js**
   1. Building utilities on the Machine.
@@ -176,4 +177,65 @@ In addition you can use this interface to debug code or test ideas. Here's some 
 
 <a name="NPM"></a>
 ## NPM
-What is it?
+The Node package manager. It's a super easy way of installing common things and you can create your own packaged JSON package and manage your Node dependencies.
+
+For example, could install the underscore library with
+```npm install underscore```
+
+And this would allow you to:
+```javascript
+var _ = require('underscore');
+
+console.log(_);
+```
+
+Also, you can save your dependencies in a package.
+The following will start a package and output a Json file.
+```npm init```
+
+* output
+
+```json
+{
+  "name": "b",
+  "version": "1.0.0",
+  "description": "Yay, you read me!",
+  "main": "add.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
+```
+
+If you want to add another dependency, you can use:
+```npm install <package> -S```
+Which will install the package to your node modules as well as add it to your JSON package that you are planning on having people download.
+
+Of note:
+```npm install```
+Will go through all of your listed dependencies and install them accordingly. It would seem that you need that package.json file present in the working directory.
+
+<a name="HTTP"></a>
+## HTTP
+The node HTTP package. You can quickly create a basic webserver. Create your file:
+```javascript
+var http = require('http');
+
+var server = http.createServer(function(request, response) {
+  console.log('got a request!');
+  response.write('hi!');
+  response.end();
+});
+
+server.listen(3000);
+```
+
+1. First you require the http module. It's built in, so no need for ./
+2. ```server``` is now the webserver. It will take a request, and a response.
+3. When this server is accessed, it will provide a console message, and respond to the requester on the webpage.
+4. Lastly, the server starts listening on port 3000.
+5. Actually start the server with ```node <fileName>```
+6. Point your browser to localhost:3000 and watch your console.
+
