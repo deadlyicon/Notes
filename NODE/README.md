@@ -6,9 +6,9 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 # Table of Contents
 1. [Modules](#Modules)
 2. [Accessing the File System with Node](#Accessing-the-File-System-with-Node)
-3. [Editing the File System](Editing-the-file-system)
-3. [REPL](#REPL)
-4. [NPM](#NPM)
+3. [Editing the File System](#Editing-the-file-system)
+4. [REPL](#REPL)
+5. [NPM](#NPM)
 
 * **Two basic things are being done with Node.js**
   1. Building utilities on the Machine.
