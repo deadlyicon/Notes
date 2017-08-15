@@ -21,14 +21,6 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 5. [NPM](#NPM)
 6. [HTTP](#HTTP)
 
-
-
-
-
-
-
-
-
 <a name="Modules"></a>
 ## Modules
 You can use modules to pass stuff between files.
@@ -71,7 +63,7 @@ function one() {}
 
 You could rework that so that you export an object with each of these functions individually.
 
-``javascript
+```javascript
 module.exports = {
   one: function () { console.log('One!'); },
 
