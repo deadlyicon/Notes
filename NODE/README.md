@@ -6,7 +6,7 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 2. [NPM](#NPM)
 3. [Accessing the File System with Node](#Accessing-the-File-System-with-Node)
 
-###Two basic things are being done with Node.js
+* **Two basic things are being done with Node.js**
 * Building utilities on the Machine.
 * A web server or web application with Node.
 
@@ -14,7 +14,9 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 * Node has a global, global object, while Javascript has a window global object.
 
 
-## Modules - or how to pass stuff between files
+## Modules
+You can use modules to pass stuff between files.
+
 How you basically load one file into another. You use ```require()```
 ```javascript
 var m2 = require('./folder2/module2');
@@ -34,7 +36,7 @@ module.exports = function(){
 ```
 
 
-##NPM
+## NPM
 What is it?
 
 
