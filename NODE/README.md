@@ -23,7 +23,7 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 You can use modules to pass stuff between files.
 
 ```require()``` to get things in.
-```modules.require()``` to get things out.
+```modules.exports()``` to get things out.
 
 How you basically load one file into another. You use ```require()```
 ```javascript
@@ -36,6 +36,7 @@ So you get things into your script by using ```require()```. In order to get thi
 var a = 1;
 module.exports.a = a //for example
 ```
+Note that there is a difference between ```module.exports.a = a;``` and ```module.exports = a;``` The difference is whether your module is a container of exported values or not.
 
 _Interestingly_, you could overwrite this export method with your own function:
 ```javascript
@@ -43,6 +44,60 @@ module.exports = function(){
   console.log('Hello There');
 };
 ```
+
+* _Exports_ is an object so you can atach properties or methods to it. For example:
+**Message.js**
+
+```
+exports.SimpleMessage = 'Hello Word';
+// or
+module.exports.SimpleMessage = 'Hello World';
+```
+In the above example we have attatched a property "SimpleMessage" to the export object. Now we can import and use this module as shown below:
+**app.js**
+
+```javascript
+var mesg = require('./Message.js')
+console.log(msg.SimpleMessage);
+```
+You can also attach anonymous functions to exports objects as show below:
+**Log.js**
+
+```javascript
+module.exports = function(msg){
+  console.log(msg);
+}
+```
+and then use it like so:
+```javascript
+var msg = require('./Log.js')
+msg('Hello World');
+```
+
+In the above example, the msg variable becomes the function expression that was exported. So, you can invoke the function using ```()```.
+
+**Exporting function as a class:**
+In the JavaScript, a function can be treated like a class. The following example exposes a function which can be used like a class.
+
+```javascript
+module.exports = function(firstName, lastName)P
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.fullName = function(){
+    return this.firstName + ' ' + this.lastName;
+  }
+}
+```
+The above module can be used as shown below.
+```javascript
+var person = require('./Person.js');
+var person1 = new person('James', 'Bond');
+console.log(person1.fullName());
+```
+
+
+
+
 
 Here's an interesting way that you can export functions using ```module.exports```. Sometimes you may find something like the code below:
 
@@ -58,7 +113,7 @@ function one() {}
 function one() {}
 ```
 
-You could rework that so that you export an object with each of these functions individually.
+You could rework that so that you _export an object_ with each of these functions individually.
 
 ```javascript
 module.exports = {
@@ -70,7 +125,7 @@ module.exports = {
 };
 ```
 
-In the above, now you can call each of the functions like
+In the above, now you can call each of the functions like this
 
 ```javascript
 console.log(exportedModule.two) //Prints Two!
@@ -289,40 +344,11 @@ undefined
 
 <a name="NPM"></a>
 ## NPM
-The Node package manager. It's a super easy way of installing common things and you can create your own packaged JSON package and manage your Node dependencies.
+**NPM provides two main functionalities**
 
-There is also an online component to npm. The packages there and via the command line can be used on the frontend, backend and command line.
+1. Online repositories for node.js packages/modules which are searchable on search.nodejs.org
 
-For example, could install the underscore library with
-```npm install underscore```
-
-And this would allow you to:
-```javascript
-var _ = require('underscore');
-
-console.log(_);
-```
-Also, you can save your dependencies in a package.
-The following will start a package and output a Json file.
-```npm init```
-This is really important because you can now easily share your project and all it's dependencies with others as long as you keep this package.json file up to date.
-
-* Output
-
-```json
-{
-  "name": "b",
-  "version": "1.0.0",
-  "description": "Yay, you read me!",
-  "main": "add.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
-}
-```
-
+2. Command line utility to install Node.js packages, do version management and dependency management of Node.js packages.
 
 **NPM INSTALL**
 
@@ -348,6 +374,55 @@ You can also run ```npm install <package> --save-dev```. This will do the same t
 **Of note:**
 ```npm install```
 If you pull down a gitHub project and run ```node start```, it may not run. But you will have the package.json file that came with it. so run: ```npm install``` and it will pull down all the dependencies listed. Make it a habit to run ```npm install``` as soon as you pull down large(?) gitHub project
+
+You could install the underscore module with via commandline
+```npm install underscore```
+
+And this would allow you to:
+```javascript
+var _ = require('underscore');
+
+console.log(_);
+```
+
+You can check the installed modules locally:
+```npm ls```
+or globally:
+```npm ls -g```
+
+You can uninstall a module with:
+```npm uninstall moduleName```
+
+You can update with:
+```npm update moduleName```
+
+You can search with:
+```npm search moduleName```
+
+
+You can save your dependencies in a package.
+The following will start a package and output a Json file.
+```npm init```
+This is really important because you can now easily share your project and all it's dependencies with others as long as you keep this package.json file up to date.
+
+* Output
+
+```json
+{
+  "name": "b",
+  "version": "1.0.0",
+  "description": "Yay, you read me!",
+  "main": "add.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
+```
+
+You can publish your own module with:
+```npm pubish```
 
 * [Read more about package.json](https://docs.npmjs.com/files/package.json)
 
