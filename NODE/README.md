@@ -1,6 +1,16 @@
 # What is Node.js?
 Basically anything you could do with PHP or Ruby you can now do with Javascript and Node.js. Node gives Javascript access to the file system, network traffic and all sorts of things normally outside the scrope of the web browser.
 
+* **Two basic things are being done with Node.js**
+  1. Building utilities on the Machine.
+  2. web server or web application with Node.
+
+**Differences between Node and Javascript**
+* Node has a global, global object, while Javascript has a window global object.
+
+
+
+
 
 
 # Table of Contents
@@ -11,12 +21,6 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 5. [NPM](#NPM)
 6. [HTTP](#HTTP)
 
-* **Two basic things are being done with Node.js**
-  1. Building utilities on the Machine.
-  2. web server or web application with Node.
-
-**Differences between Node and Javascript**
-* Node has a global, global object, while Javascript has a window global object.
 
 
 
@@ -179,6 +183,8 @@ In addition you can use this interface to debug code or test ideas. Here's some 
 ## NPM
 The Node package manager. It's a super easy way of installing common things and you can create your own packaged JSON package and manage your Node dependencies.
 
+There is also an online component to npm. The packages there and via the command line can be used on the frontend, backend and command line.
+
 For example, could install the underscore library with
 ```npm install underscore```
 
@@ -188,12 +194,12 @@ var _ = require('underscore');
 
 console.log(_);
 ```
-
 Also, you can save your dependencies in a package.
 The following will start a package and output a Json file.
 ```npm init```
+This is really important because you can now easily share your project and all it's dependencies with others as long as you keep this package.json file up to date.
 
-* output
+* Output
 
 ```json
 {
@@ -209,13 +215,35 @@ The following will start a package and output a Json file.
 }
 ```
 
-If you want to add another dependency, you can use:
+
+**NPM INSTALL**
+
+If you want to add another package / dependency, you can use:
 ```npm install <package> -S```
 Which will install the package to your node modules as well as add it to your JSON package that you are planning on having people download.
 
-Of note:
+**Another Example**
+
+1. Create a new folder and run ```npm init -y```
+2. Find some pacakge you want at [NPMjs](https://www.npmjs.com/)
+3. Install it will ```npm install <package name> -S```
+4. cd to node_modules/packageName
+5. ```ls``` and look at all that packages dependencies! _Neato_
+
+You can also run ```npm install <package> --save-dev```. This will do the same thing but save the new package to a dev key in your package file. This separation is so those who wish to contribute to the development of your app. The regular user will not get this dependency.
+
+* You can also point npm to a tar all.
+* You can also install a specific version with ```npm install package@10```
+  * Specifying a version number will lock it in, preventing it from being upgraded later on.
+
+
+**Of note:**
 ```npm install```
-Will go through all of your listed dependencies and install them accordingly. It would seem that you need that package.json file present in the working directory.
+If you pull down a gitHub project and run ```node start```, it may not run. But you will have the package.json file that came with it. so run: ```npm install``` and it will pull down all the dependencies listed. Make it a habit to run ```npm install``` as soon as you pull down large(?) gitHub project
+
+* [Read more about package.json](https://docs.npmjs.com/files/package.json)
+
+
 
 <a name="HTTP"></a>
 ## HTTP
