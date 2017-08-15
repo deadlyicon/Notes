@@ -5,6 +5,7 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 1. [Modules](#Modules)
 2. [NPM](#NPM)
 3. [Accessing the File System with Node](#Accessing-the-File-System-with-Node)
+4. [REPL](#REPL)
 
 * **Two basic things are being done with Node.js**
 * Building utilities on the Machine.
@@ -142,4 +143,31 @@ fs.unlink('./stuff/writeMe.txt', function(){
 
 1. In order to delete folders we must first clear them out. So, first run ```fs.unlink()```, passing it the file to be deleted.
 2. Also, pass the method a callback function, this time use ```fs.rmdir()``` which will delete our folder only after it is empty but in a non-blocking way.
+
+<a name="REPL"></a>
+## REPL
+###### Run Evaluate Print Loop
+
+Like the console in Chrome Dev Tools
+
+Run ```node``` to enter Node REPL.
+
+* You can define functions in REPL.
+
+```
+function add(a, b){
+  return a + b;
+}
+```
+```add(1,2)``` will return what you would expect.
+
+
+In addition you can use this interface to debug code or test ideas. Here's some quick tips:
+
+**Accessing the date**
+```var d = new Date()```
+
+**Access timestamp since the 70?s**
+```var ts = Date.now()```
+
 
