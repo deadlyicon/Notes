@@ -1,6 +1,8 @@
 # What is Node.js?
 Basically anything you could do with PHP or Ruby you can now do with Javascript and Node.js. Node gives Javascript access to the file system, network traffic and all sorts of things normally outside the scrope of the web browser.
 
+
+
 # Table of Contents
 1. [Modules](#Modules)
 2. [Accessing the File System with Node](#Accessing-the-File-System-with-Node)
@@ -14,6 +16,10 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 
 **Differences between Node and Javascript**
 * Node has a global, global object, while Javascript has a window global object.
+
+
+
+
 
 
 
