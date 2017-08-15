@@ -266,6 +266,7 @@ undefined
 ```
 
 * REPL Commands
+
   **ctrl + c** − terminate the current command.
 
   **ctrl + c twice** − terminate the Node REPL.
