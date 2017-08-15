@@ -33,17 +33,20 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 ## Modules
 You can use modules to pass stuff between files.
 
+```require()``` to get things in.
+```modules.require()``` to get things out.
+
 How you basically load one file into another. You use ```require()```
 ```javascript
 var m2 = require('./folder2/module2');
 console.log(m2.a);
 ```
-The above loads module2 into the file as long as module2 has the below somwhere:
+So you get things into your script by using ```require()```. In order to get things out of your scripts you use ```module.exports()```.
+
 ```javascript
 var a = 1;
 module.exports.a = a //for example
 ```
-
 
 _Interestingly_, you could overwrite this export method with your own function:
 ```javascript
@@ -52,6 +55,63 @@ module.exports = function(){
 };
 ```
 
+Here's an interesting way that you can export functions using ```module.exports```. Sometimes you may find something like the code below:
+
+```javascript
+module.exports = function(a, b){
+  return a + b;
+};
+
+function one() {}
+
+function one() {}
+
+function one() {}
+```
+
+You could rework that so that you export an object with each of these functions individually.
+
+``javascript
+module.exports = {
+  one: function () { console.log('One!'); },
+
+  two: function () { console.log('Two!'); },
+
+  three: function () { console.log('Three!'); } ,
+};
+```
+
+In the above, now you can call each of the functions like
+
+```javascript
+console.log(exportedModule.two) //Prints Two!
+```
+
+You could also export stuff like this
+
+```javascript
+function one(){
+  console.log('one');
+}
+
+function two(){
+  console.log('two');
+}
+
+modules.export = { one, two};
+```
+
+Lastly, you could even export like this:
+
+```javascript
+exports.one = function(){
+  console.log('one');
+}
+
+exports.two = function(){
+  console.log('two');
+}
+```
 
 
 <a name="Accessing-the-File-System-with-Node"></a>
@@ -106,6 +166,7 @@ var readMe = fs.readFile('readMe.txt', 'utf8', function(err, data){
 
 * The above is a better way to write your code as it will be faster. This is because it's not blocking and the computer can continue to execute more code while the filesystem is looking up the file.
 
+* More notes on ```fs```
 
 <a name="Editing-the-file-system"></a>
 ## Editing the file system
@@ -157,7 +218,9 @@ fs.unlink('./stuff/writeMe.txt', function(){
 
 <a name="REPL"></a>
 ## REPL
-The Run Evaluate Print Loop, it's like the console in Chrome Dev Tools, but for Node.
+The Read Eval Print Loop, it's like the console in Chrome Dev Tools, but for Node.
+
+
 
 * Run ```node``` to enter Node REPL.
 * You can define functions in REPL.
