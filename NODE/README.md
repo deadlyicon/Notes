@@ -1,11 +1,10 @@
-<h3>Index</h3>
-<ul>
-<a href="#Modules">Modules</a>
-</ul>
-
-
 #What is Node.js?
 Basically anything you could do with PHP or Ruby you can now do with Javascript and Node.js. Node gives Javascript access to the file system, network traffic and all sorts of things normally outside the scrope of the web browser.
+
+# Table of Contents
+1. [Modules](#Modules)
+2. [NPM](#NPM)
+3. [Accessing the File System with Node](#Accessing-the-File-System-with-Node)
 
 ###Two basic things are being done with Node.js
 * Building utilities on the Machine.
@@ -35,7 +34,8 @@ module.exports = function(){
 ```
 
 
-##NPM. What is it?
+##NPM
+What is it?
 
 
 
