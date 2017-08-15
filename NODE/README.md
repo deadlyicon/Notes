@@ -1,22 +1,25 @@
-#What is Node.js?
+# What is Node.js?
 Basically anything you could do with PHP or Ruby you can now do with Javascript and Node.js. Node gives Javascript access to the file system, network traffic and all sorts of things normally outside the scrope of the web browser.
 
 # Table of Contents
 1. [Modules](#Modules)
-2. [NPM](#NPM)
-3. [Accessing the File System with Node](#Accessing-the-File-System-with-Node)
-4. [REPL](#REPL)
+2. [Accessing the File System with Node](#Accessing-the-File-System-with-Node)
+3. [Editing the File Systeh](Editing-the-file-system)
+3. [REPL](#REPL)
+4. [NPM](#NPM)
 
 * **Two basic things are being done with Node.js**
-* Building utilities on the Machine.
-* A web server or web application with Node.
+  1. Building utilities on the Machine.
+  2. web server or web application with Node.
 
-###Differences between Node and Javascript
+**Differences between Node and Javascript**
 * Node has a global, global object, while Javascript has a window global object.
+
+
+
 
 <a name="Modules"></a>
 ## Modules
-
 You can use modules to pass stuff between files.
 
 How you basically load one file into another. You use ```require()```
@@ -24,31 +27,28 @@ How you basically load one file into another. You use ```require()```
 var m2 = require('./folder2/module2');
 console.log(m2.a);
 ```
-The above loads module2 into the file as long as module2 has this somwhere:
+The above loads module2 into the file as long as module2 has the below somwhere:
 ```javascript
 var a = 1;
 module.exports.a = a //for example
 ```
 
-You could overwrite this export method with your own function:
+
+_Interestingly_, you could overwrite this export method with your own function:
 ```javascript
 module.exports = function(){
   console.log('Hello There');
 };
 ```
 
-<a name="NPM"></a>
-## NPM
-
-What is it?
 
 
-
-## Accessing the File System with Node
+<a name="Accessing-the-File-System-with-Node"></a>
+## Accessing the File System
 You can get access to the file system using the ```fs``` module.
 
+* Here is the Synchronous method to reading and writing files on the disk:
 
-### Here is the Synchronous method to reading and writing files on the disk:
 ```javascript
 var fs = require('fs');
 
@@ -61,7 +61,8 @@ console.log(readMe);
 ```fs.readFileSync('readMe.txt', 'utf8');``` Is a synchronous method, meaning that it will need to complete before moving on to the next code. This is also knowns as blocking code because it blocks the computer from continuing until it is completed. The file name is relative in this example, and ```utf8``` is passed as the second parameter to indicate the type of encoding.
 
 
-### Here is the Asynchronous method for reading and writing files to disk:
+* Here is the Asynchronous method for reading and writing files to disk:
+
 ```javascript
 var fs = require('fs');
 
@@ -95,7 +96,9 @@ var readMe = fs.readFile('readMe.txt', 'utf8', function(err, data){
 * The above is a better way to write your code as it will be faster. This is because it's not blocking and the computer can continue to execute more code while the filesystem is looking up the file.
 
 
-## How to delete files
+<a name="Editing-the-file-system"></a>
+## Editing the file system
+* How to delete files
 
 Easy enough:
 ```javascript
@@ -103,19 +106,15 @@ fs.unlink('fileName.txt');
 ```
 
 
-### Creating and Removing Directories with Node
-
+* Creating and Removing Directories with Node
 **Synchronous version:**
 ```javascript
-
 fs.mkdirSync('stuff'); //make dir
 fs.rmdirSync('stuff'); //remove dir
 ```
 
 
 **Asynchronous version:**
-
-**Creating Folders**
 ```javascript
 var fs = require('fs');
 
@@ -144,14 +143,12 @@ fs.unlink('./stuff/writeMe.txt', function(){
 1. In order to delete folders we must first clear them out. So, first run ```fs.unlink()```, passing it the file to be deleted.
 2. Also, pass the method a callback function, this time use ```fs.rmdir()``` which will delete our folder only after it is empty but in a non-blocking way.
 
+
 <a name="REPL"></a>
 ## REPL
-###### Run Evaluate Print Loop
+The Run Evaluate Print Loop, it's like the console in Chrome Dev Tools, but for Node.
 
-Like the console in Chrome Dev Tools
-
-Run ```node``` to enter Node REPL.
-
+* Run ```node``` to enter Node REPL.
 * You can define functions in REPL.
 
 ```
@@ -171,3 +168,6 @@ In addition you can use this interface to debug code or test ideas. Here's some 
 ```var ts = Date.now()```
 
 
+<a name="NPM"></a>
+## NPM
+What is it?
