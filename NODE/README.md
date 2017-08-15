@@ -1,6 +1,6 @@
 <h3>Index</h3>
 <ul>
-<li><a href="#Modules">Modules</a></li>
+<a href="#Modules">Modules</a>
 </ul>
 
 
@@ -15,8 +15,7 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 * Node has a global, global object, while Javascript has a window global object.
 
 
-## Modules
-####or how to pass stuff between files
+## Modules - or how to pass stuff between files
 How you basically load one file into another. You use ```require()```
 ```javascript
 var m2 = require('./folder2/module2');
