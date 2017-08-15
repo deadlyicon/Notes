@@ -13,8 +13,9 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 ###Differences between Node and Javascript
 * Node has a global, global object, while Javascript has a window global object.
 
+<a name="Modules"></a>
+## Modules
 
-## Modules <a name="Modules"></a>
 You can use modules to pass stuff between files.
 
 How you basically load one file into another. You use ```require()```
@@ -35,8 +36,9 @@ module.exports = function(){
 };
 ```
 
+<a name="NPM"></a>
+## NPM
 
-## NPM <<a name="NPM"></a>
 What is it?
 
 
