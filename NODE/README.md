@@ -9,10 +9,6 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 * Node has a global, global object, while Javascript has a window global object.
 
 
-
-
-
-
 # Table of Contents
 1. [Modules](#Modules)
 2. [Accessing the File System with Node](#Accessing-the-File-System-with-Node)
@@ -20,6 +16,7 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 4. [REPL](#REPL)
 5. [NPM](#NPM)
 6. [HTTP](#HTTP)
+
 
 <a name="Modules"></a>
 ## Modules
@@ -212,8 +209,6 @@ fs.unlink('./stuff/writeMe.txt', function(){
 ## REPL
 The Read Eval Print Loop, it's like the console in Chrome Dev Tools, but for Node.
 
-
-
 * Run ```node``` to enter Node REPL.
 * You can define functions in REPL.
 
@@ -233,6 +228,55 @@ In addition you can use this interface to debug code or test ideas. Here's some 
 **Access timestamp since the 70?s**
 ```var ts = Date.now()```
 
+* Node REPl can also do multiline expression similar to javascript. Check out the following do-while loop in action
+
+```
+$ node
+> var x = 0
+undefined
+> do {
+... x++;
+... console.log("x: " + x);
+... } while ( x < 5 );
+x: 1
+x: 2
+x: 3
+x: 4
+x: 5
+undefined
+>
+```
+
+* You can use ```_``` to get the last result:
+
+```
+$ node
+> var x = 10
+undefined
+> var y = 20
+undefined
+> x + y
+30
+> var sum = _
+undefined
+> console.log(sum)
+30
+undefined
+>
+```
+
+* REPL Commands
+
+  **ctrl + c** − terminate the current command.
+  **ctrl + c twice** − terminate the Node REPL.
+  **ctrl + d** − terminate the Node REPL.
+  **Up/Down Keys** − see command history and modify previous commands.
+  **tab Keys** − list of current commands.
+  **.help** − list of all commands.
+  **.break** − exit from multiline expression.
+  **.clear** − exit from multiline expression.
+  **.save** filename − save the current Node REPL session to a file.
+  **.load** filename − load file content in current Node REPL session.
 
 <a name="NPM"></a>
 ## NPM
