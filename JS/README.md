@@ -6,23 +6,25 @@
 
 <a name="Array-Methods"></a>
 ## Array Methods
-array.push
+A list of common array methods.
+
+* array.push
 ```myArray.push(3) //adds 3 to the end of an array```
 
-array.pop
+* array.pop
 ```myArray.pop() //removes the last item on the end of an array.```
 
-array.shift
+* array.shift
 ```myArray.shift(3) //adds 3 to the start of an array.```
 
-array.unshift
+* array.unshift
 ```myArray.unshift() //removes the first item in an array```
 
-array.forEach
+* array.forEach
 Executes the function on each item of the array.
 ```myArry.forEach(function(i){console.log(i)})```
 
-array.map
+* array.map
 Takes an array and outputs another array based on the function that is passed to .map
 ```javascript
 const floats = [12.34,66.44,23.121,0.12,14.3]
