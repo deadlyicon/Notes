@@ -6,7 +6,7 @@
 1. [Array Methods](#Array-Methods)
 2. [Object Keys and Values](#Object-Keys-and-Values)
 3. [Closure](#Closure)
-
+4. [getElementById](#getElementById)
 
 
 
@@ -14,23 +14,23 @@
 ## Array Methods
 A list of common array methods.
 
-**array.push**  
+**array.push**
 ```myArray.push(3) //adds 3 to the end of an array```
 
-**array.pop**  
+**array.pop**
 ```myArray.pop() //removes the last item on the end of an array.```
 
-**array.shift**  
+**array.shift**
 ```myArray.shift(3) //adds 3 to the start of an array.```
 
-**array.unshift**  
+**array.unshift**
 ```myArray.unshift() //removes the first item in an array```
 
-**array.forEach**  
+**array.forEach**
 Executes the function on each item of the array.
 ```myArry.forEach(function(i){console.log(i)})```
 
-**array.map**  
+**array.map**
 Takes an array and outputs another array based on the function that is passed to .map
 ```javascript
 const floats = [12.34,66.44,23.121,0.12,14.3]
@@ -38,14 +38,14 @@ const integers = floats.map(function(n){
   return Math.round(n)
 ```
 
-**array.filter**  
+**array.filter**
 .filter returns any item in the array that test for true based on the function provided.
 ```javascript
 const numbers = [1,2,3,4,5,6,7,8,9]
 const lessThan5 = numbers.filter(function(n){ return n < 5 })
 ```
 
-**array.reduce**  
+**array.reduce**
 .reduce reduces the array to a single value. For example:
 ```javascript
 const numbers = [1,2,3,4,5,6,7,8,9]
@@ -65,7 +65,7 @@ Object.keys(obj);
 ```
 
 * How to return all the values of an object:
-```javascript 
+```javascript
 values = Object.keys(obj).map(function(key){
   return obj(key);
 })
@@ -90,3 +90,20 @@ console.log(add10(2)); // 12
 ```
 
 ```add5``` and ```add10``` are _closures_. Basically we made ```makeAdder``` a function factory and now ```add5``` and ```add10``` are functions which have access to the code in the original makeAdder function but have different parameters as were declared when ```add5``` and ```add10``` were created. Given the similarly to OOP, you may use a closure when you have an object with just one method.
+
+
+<a name="getElementById"></a>
+## getElementById  
+This is a hand function for grabbing something with JS from an html page. 
+Identify an element with an ```id``` tag in your html doc:
+```html
+<td>Lenny Bear: </td>
+<td id="lennyBear">!</td>
+```  
+Then in your JS file, run the following to get at and change that textContent:
+```javascript
+var lenny = 'He is a puppy face'
+var elLennyBear = document.getElementById('lennyBear');
+elLennyBear.textContent = lenny;
+```
+
