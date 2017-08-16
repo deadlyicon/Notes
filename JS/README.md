@@ -8,23 +8,23 @@
 ## Array Methods
 A list of common array methods.
 
-* array.push
+**array.push**
 ```myArray.push(3) //adds 3 to the end of an array```
 
-* array.pop
+**array.pop**
 ```myArray.pop() //removes the last item on the end of an array.```
 
-* array.shift
+**array.shift**
 ```myArray.shift(3) //adds 3 to the start of an array.```
 
-* array.unshift
+**array.unshift**
 ```myArray.unshift() //removes the first item in an array```
 
-* array.forEach
+**array.forEach**
 Executes the function on each item of the array.
 ```myArry.forEach(function(i){console.log(i)})```
 
-* array.map
+**array.map**
 Takes an array and outputs another array based on the function that is passed to .map
 ```javascript
 const floats = [12.34,66.44,23.121,0.12,14.3]
@@ -32,14 +32,14 @@ const integers = floats.map(function(n){
   return Math.round(n)
 ```
 
-array.filter
+**array.filter**
 .filter returns any item in the array that test for true based on the function provided.
 ```javascript
 const numbers = [1,2,3,4,5,6,7,8,9]
 const lessThan5 = numbers.filter(function(n){ return n < 5 })
 ```
 
-array.reduce
+**array.reduce**
 .reduce reduces the array to a single value. For example:
 ```javascript
 const numbers = [1,2,3,4,5,6,7,8,9]
