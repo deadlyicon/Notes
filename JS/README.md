@@ -2,7 +2,8 @@
 
 # Table of Contents
 1. [Array Methods](#Array-Methods)
-2. [Closure](#Closure)
+2. [Object Keys and Values](#Object-Keys-and-Values)
+3. [Closure](#Closure)
 
 <a name="Array-Methods"></a>
 ## Array Methods
@@ -51,6 +52,19 @@ let sum = numbers.reduce(function(sum, number){
 The end value is a starting value, if not provided then the first item in the array will be used. Can be used to reduce an array to a single value.
 
 
+<a name="Object-Keys-and-Values"></a>
+## Object Keys and Values
+* How to return all the keys of an object:
+```javascript
+Object.keys(obj);
+```
+
+* How to return all the values of an object:
+```javascript
+values = Object.keys(obj).map(function(key){
+  return obj(key);
+})
+````
 
 <a name="Closure"></a>
 ## Closure
