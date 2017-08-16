@@ -1,7 +1,7 @@
 # A place for keeping track of things.
 
-[HTML](/HTML/README.md)
-JS
-CSS
-NODE
-UNIX
+[JS](JS/README.md)
+[HTML](HTML/README.md)
+[CSS](CSS/README.md)
+[NODE](NODE/README.md)
+[UNIX](UNIX/README.md)
