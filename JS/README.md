@@ -110,6 +110,8 @@ elLennyBear.textContent = lenny;
 ## Callbacks
 Callbacks are functions that are executed asynchronously, or at a later time. Instead of the code reading top to bottom procedurally, async programs may execute different functions at different times based on the order and speed that earlier functions like http requests or files system reads happen.
 
+A function that takes other functions as arguments or returns functions as its result is called a higher-order function, and the function that is passed as an argument is called a callback function. It’s named “callback” because at some point in time it is “called back” by the higher-order function.
+
 Determining if a function is asynchronous or not depends a lot on context. Here is an example of a sync function, or one that uses blocking code. It runs sequentially from top to bottom.
 ```javascript
 var myNumber = 1
@@ -204,6 +206,61 @@ fs.readFile('movie.mp4', function finishedReading(err, data){
 });
 ```
 
+Here is another example of a type of callback function that does not involve Node:
+```javascript
+function fullName(firstName, lastName, callback){
+  console.log("My name is " + firstName + " " + lastName);
+  callback(lastName);
+}
+
+var greeting = function(ln){
+  console.log('Welcome Mr. ' + ln);
+};
+
+fullName("Jackie", "Chan", greeting);
+```
+
+* We are passing the function definition, not the function call. This prevents the callback from being executed immediately, which is not the idea behind the callbacks. Passed as function definitions, they can be executed at any time and at any point in the containing function. Also, because callbacks behave as if they are actually placed inside that function, they are in practice closures: they can access the containing function’s variables and parameters, and even the variables from the global scope.
+
+You could write the above example with an anonymous function like so:
+
+```javascript
+function fullName(firstName, lastName, callback){
+  console.log("My name is " + firstName + " " + lastName);
+  callback(lastName);
+}
+
+fullName("Jackie", "Chan", function(ln){console.log('Welcome Mr. ' + ln);});
+```
+
+Callbacks are also great when you need to transform your unnecessary repeated code patter into more abstract/generic functions.
+
+Let’s say we need two functions – one that prints information about published articles and another that prints information about sent messages. We create them, but we notice that some part of our logic is repeated in both of the functions. We know that having one and the same piece of code in different places is unnecessary and hard to maintain. So, what is the solution? Let’s illustrate it in the next example:
+
+```javascript
+function publish(item, author, callback){   // Generic function with common data
+  console.log(item);
+  var date = new Date();
+
+  callback(author, date);
+}
+
+function messages(author, time){   // Callback function with specific data
+  var sendTime = time.toLocaleTimeString();
+  console.log("Sent from " + author + " at " + sendTime);
+}
+
+function articles(author, date){   // Callback function with specific data
+  var pubDate = date.toDateString();
+  console.log("Written by " + author);
+  console.log("Published " + pubDate);
+}
+
+publish("How are you?", "Monique", messages);
+
+publish("10 Tips for JavaScript Developers", "Jane Doe", articles);
+```
 
 * Resources
 [Callbacks in Node](https://github.com/maxogden/art-of-node#callbacks)
+[Callbacks, IIFEs and Closures](https://www.sitepoint.com/demystifying-javascript-closures-callbacks-iifes/)
