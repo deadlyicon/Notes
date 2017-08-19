@@ -264,4 +264,5 @@ publish("10 Tips for JavaScript Developers", "Jane Doe", articles);
 * Resources
 
 [Callbacks in Node](https://github.com/maxogden/art-of-node#callbacks)
+
 [Callbacks, IIFEs and Closures](https://www.sitepoint.com/demystifying-javascript-closures-callbacks-iifes/)
