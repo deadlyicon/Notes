@@ -2,6 +2,8 @@
 1. [Shell Initialization Files](#Shell-Initialization-Files)
 2. [Aliases](#Aliases)
 3. [Customizing Your Prompt](#Customizing-Your-Prompt)
+4. [How to check for an env variable](#How-to-check-for-an-env-variable)
+5. [How to set a file to executable](#How-to-set-a-file-to-executable)
 
 
 <a name="Shell-Initialization-Files"></a>
@@ -76,5 +78,23 @@ Currently, you have this string:
 
 ```bash
 export PS1='\[\033[4;1;${PROMPT_COLOR}m\]\w\[\033[0m\]$(__git_ps1 " $(git config --get user.email) (%s)") \n🔥'
+```
+
+<a name="How-to-check-for-an-env-variable"></a>
+## How to check for an env variable
+
+Ooo that's an easy one:
+
+```bash
+printenv | grep var_name
+```
+
+<a name = "How-to-set-a-file-to-executable"></a>
+## How to set a file to executable
+
+Boom another easy one:
+
+```bash
+chmod a+x <filename>
 ```
 
