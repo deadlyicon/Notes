@@ -242,7 +242,7 @@ fs.mkdir('stuff', function(){
 ```
 
 1. First, ```fs.mkdir()``` is called and a callback function is provided.
-2. Once the FS completes the task it goes on to ```fs.readFile()```, which then reads the specified file, sets the encoding to....that, and then we pass another call back function
+2. Once the FS completes the task it goes on to ```fs.readFile()```, which then reads the specified file, sets the encoding to utf8, and then we pass another callback function
 3. ```fs.readFile()``` is asynchronous so it's callback is ```fs.writeFile()```, which then writes the data to the specified file.
 4. Structuring your code this way is faster at runtime and allows the computer to run the next lines while waiting for the file system to do it's thing.
 
