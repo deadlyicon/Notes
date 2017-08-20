@@ -7,6 +7,7 @@
 3. [Closure](#Closure)
 4. [getElementById](#getElementById)
 5. [Callbacks](#Callbacks)
+6. [IFEs](#IIFEs)
 
 
 <a name="Array-Methods"></a>
@@ -89,6 +90,66 @@ console.log(add10(2)); // 12
 ```
 
 ```add5``` and ```add10``` are _closures_. Basically we made ```makeAdder``` a function factory and now ```add5``` and ```add10``` are functions which have access to the code in the original makeAdder function but have different parameters as were declared when ```add5``` and ```add10``` were created. Given the similarly to OOP, you may use a closure when you have an object with just one method.
+
+There are three points to remember with closures:
+
+1. You can refer to variables defined outside of the current functions
+
+```javascript
+function setLocation(city){
+  var country = 'France';
+
+  function printLocation(){
+    console.log('You are in ' + city + ', '' + country);
+  }
+
+  printLocation();
+}
+```
+setLocation('Paris'); // output: You are in Paris, France
+
+
+2. Inner functions can refer to variables defined in outer functions even after the latter have returned.
+
+```javascript
+function setLocation(city) {
+  var country = "France";
+
+  function printLocation() {
+    console.log("You are in " + city + ", " + country);
+  }
+
+  return printLocation;
+}
+
+var currentLocation = setLocation ("Paris");
+
+currentLocation();
+
+```
+
+3. Inner functions store their our function's variables by reference, not by value.
+
+```javascript
+function cityLocation() {
+  var city = "Paris";
+
+  return {
+    get: function() { console.log(city); },
+    set: function(newCity) { city = newCity; }
+  };
+}
+
+var myLocation = cityLocation();
+
+myLocation.get();           // output: Paris
+myLocation.set('Sydney');
+myLocation.get();           // output: Sydney
+```
+
+
+
+3.
 
 
 <a name="getElementById"></a>
@@ -266,3 +327,50 @@ publish("10 Tips for JavaScript Developers", "Jane Doe", articles);
 [Callbacks in Node](https://github.com/maxogden/art-of-node#callbacks)
 
 [Callbacks, IIFEs and Closures](https://www.sitepoint.com/demystifying-javascript-closures-callbacks-iifes/)
+
+
+
+<a name="IIFEs"></a>
+## IIFEs
+
+An immediately-invoked functions expression is a function expression, named or unnamed, that is executed right after it's creation. There are two slightly different syntax patterns:
+
+```javascript
+// variant 1
+(function () { alert('something!');
+})();
+
+//variant 2
+(function () { alert('something!');
+}());
+```
+
+To turn your regular function into an IIFE you need to preform two steps.
+
+1. You need to wrap the whole function in parentheses. As the name suggests, an IIFE must be a function expression, not a function definition. So, the purpose of the enclosing parentheses is to transform a function definition into an expression. This is because, in JavaScript, everything in parentheses is treated as an expression.
+
+2. You need to add a pair of parentheses at the very end (variant 1), or right after the closing curly brace (variant 2), which causes the function to be executed immediately.
+
+Here are three things to keep in mind when writing IIFEs.
+
+1. If you assign a function to a variable, you don't need to enclose the whole function in parens, because it is already an expression.
+
+```javascript
+var sayWoohoo = function(){
+  alert('Woohoo!');
+}();
+```
+
+2. A semicolon is required at the end of an IIFE, otherwise your code may not work properly.
+
+3. You can pass arguments to an IIFE, like so:
+
+```javascript
+(function (name, profession){
+  console.log("My name is " + name + ". I'm an " + profession + ".");
+})("Jackie Chan", "actor");  //output: My name is Jackie Chan, I'm an actor.
+```
+
+
+
+An IIFE is often used to create scope to encapsulate modules. Within the module there is a private scope that is self-contained and safe from unwanted or accidental modification. This technique, called the module pattern, is a powerful example of using closures to manage scope, and it’s heavily used in many of the modern JavaScript libraries (jQuery and Underscore, for example).
