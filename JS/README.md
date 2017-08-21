@@ -8,6 +8,7 @@
 4. [getElementById](#getElementById)
 5. [Callbacks](#Callbacks)
 6. [IFEs](#IIFEs)
+7. [ECMAScript 2015](#ECMAScript-2017)
 
 
 <a name="Array-Methods"></a>
@@ -374,3 +375,19 @@ var sayWoohoo = function(){
 
 
 An IIFE is often used to create scope to encapsulate modules. Within the module there is a private scope that is self-contained and safe from unwanted or accidental modification. This technique, called the module pattern, is a powerful example of using closures to manage scope, and it’s heavily used in many of the modern JavaScript libraries (jQuery and Underscore, for example).
+
+
+<a name="ECMAScript-2017"></a>
+## ECMAScript 2017
+
+[ECMAScript](https://en.wikipedia.org/wiki/ECMAScript) or **ES6** is a scripting language specification standardized by Ecma International. It was created to standardize JavaScript so as to foster faster and multiple independent implementations.
+
+With each iteration of ES new features are added. ES2015 included the ```=>``` function operators. [Here are some more details about **ES2015**](https://babeljs.io/learn-es2015/).
+
+
+
+
+
+
+
+

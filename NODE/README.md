@@ -16,6 +16,8 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 4. [REPL](#REPL)
 5. [NPM](#NPM)
 6. [HTTP](#HTTP)
+7. [BABEL](#BABEL)
+8. [Webpack](#Webpack)
 
 
 <a name="Modules"></a>
@@ -450,3 +452,195 @@ server.listen(3000);
 5. Actually start the server with ```node <fileName>```
 6. Point your browser to localhost:3000 and watch your console.
 
+
+<a name = 'BABEL'></a>
+## BABEL
+Babel is a tool for transpiling (compiling) ES6/ES7 code to ECMAScript 5 code (ES5), which can be used today in any modern browser. Babel and it's presets can be installed via ```npm```.
+
+ES6 is a significant update to Javascript. Implementation of these new features in major JavaScript engines is still ongoing at present, and a conversion is required to enable the use of these latest features in older JavaScript engines.
+
+The Babel compiler allows us to use the new JavaScript features in our apps. Bascially, Bable is a JavaScript compiler that enables us to use next generations Javascript, today.
+
+You can tell Bable how to transform your JavaSript files with a ```.babelrc``` file in the root of your project. These are in JSON format, and a simple one would like like this:
+
+```JSON
+{
+  "presets": ["es2015"]
+}
+```
+
+**Babel CLI Guide**
+
+You have some code written with ES2016 things and you try to run node ```fileName.js```. It will fail b/c node doesn't have ES2016 capability right out the gate. In order to get it working do the following:
+
+1. npm init -y
+2. npm install babel-cli babel-register babel-preset-es2015 babel-preset-stage-2 --save-dev
+  * The cli is the command line interface. The Register is not good for production but development. It compile files on the fly as long as you require it before the file. Then we want two presets; preset-2015, which is the stable build of the new features, stage-2 is really current build.
+3. Configure babel to use these two presets. Make a new file ```.babelrc``` in your root.
+
+```json
+{
+  "presets": ["es2015", "stage-2"],
+}
+
+* You could also do this in your package.json file but it is not recommended.
+4. Time to compile with babel! ```-o``` flag is for output. Below you are saying take this file and compile it, then name it the following:
+
+```bash
+babel server/index.js -o server/index.babel.js
+```
+
+5. Now you will get a new file that has been transpiled from es2015 to plain old javaScript.
+6. Editing your original index.js file and recompiling will update index.babel.js
+
+
+
+**Babel Register Guide**
+You probably don't want to have to do the above for each and every file. Instead use register for dev.
+
+1. Make a new folder, ```bin```, then make two new files, ```dev``` and ```production``` in ```bin```. No .js extensions.
+2.In ```dev``` require ```babel-register``` and give it an entry point, in this case, ./../server/index.
+
+dev
+```
+require('babel-register');
+require('./../server/index')
+```
+
+3. Now run ```node bin/dev``` for success. This is compiling our code on the fly with babel-register.
+4. If it's running you now have your development build work flow thing ready to go.
+5. You can also add a key to your package.json file like so
+
+```"start": "node bin/dev"```
+
+6. Now running ```npm start``` will do the same as above, build your development build.
+
+**Now for Production**
+What you are doing here is compiling your server folder, spit out a compiled directory called ```dist```, and then go host it somewhere like heruko.
+
+1. Make a few new scripts in ```package.json``` like so:
+
+```"clean": "rm-rf dist"```
+
+* The above removes the dist folder.
+
+```"build": "npm run clean && mkdir dist && babel server -s -d dist"```
+
+* The above makes the dist folder and has babel compile everything in the server folder.
+* -s is source map and it will refer it back to uncompiled code if need be.
+* -d flags where to distribute this output directory.
+
+```"production": "npm run build && node bin/production"```
+
+* The above is a short hand way to compile your production code and run it. See step 5 on how to configure your production file.
+
+2. Run ```npm run build``` to build your distribution build, or your final render so to speak.
+3. Check the new ```dist``` folder for the outputed files.
+4. Test with ```node dist/index``` to see how both the distribution and the devleopment builds run the same.
+5. For your ```bin/production``` file you will want to point it it back to your distribution index:
+
+```javascript
+require('./../dist/index')
+```
+
+**Conclusion**
+Now you should be able to write any ES2015, ES2017 code you want to and then run the following commands in your new environment:
+
+```npm run start``` -  test your code
+```npm run build``` - build your dist module
+```npm run production``` - output your distribution module and run it for a test.
+
+
+* Resources
+
+[Video Tutorial, ES2017 with Babel + Node.js](https://www.youtube.com/watch?v=LtEP_-3a5CY)
+
+[More information about ES6 and Babel 6](http://jamesknelson.com/the-complete-guide-to-es6-with-babel-6/)
+
+
+<a name="Webpack"></a>
+## Webpack
+Webpack is a _modular bundler_ for modern JavaScript apps. When Webpack processes your app, it recursively builds a dependency graph that includes every module your application needs, then packages all those modules into a small number of bundles - often only one, to be loaded by the browser.
+
+To use webpack, initialize npm and install webpack locally in a clean directory.
+```
+mkdir webpack-demo && cd webpack-demo
+npm init -y
+npm install --save-dev webpack
+```
+
+
+You'll want to setup your folder structure like so:
+
+```
+webpack-demo
+|- package.json
+|- webpack.config.js
+|- /dist
+  |- bundle.js
+  |- index.html
+|- /src
+  |- index.js
+|- /node_modules
+```
+
+If you are previously getting a module from a link, you can download that locally via npm, and then include the following in your ```index.js``` file. The following is using lodash as an example:
+
+```javascript
+import _ from 'lodash';
+...
+```
+
+Webpack will understand what to do with the ```import``` and ```export``` commands.
+
+Next up you will want to remove your ```<script src="link"></script>``` line in your index.html as well as ```<script src="./src/index.js"></script>``` and point that script to the bundle.js that will be made the first time you run webpack. So like this:
+
+```html
+  <html>
+   <head>
+     <title>Getting Started</title>
+   <script src="https://unpkg.com/lodash@4.16.6"></script> //remove this
+   </head>
+   <body>
+   <script src="./src/index.js"></script> //remove this
+   <script src="bundle.js"></script> //add this
+   </body>
+  </html>
+```
+
+Now you can either run webpack through it's CLI, or API. The CLI runs like this, by specifying the entry point and exit point.
+``` webpack src/index.js dist/bundle.js```
+
+
+To use the API, create a ```webpack.config.js``` file in your root. It should look like this:
+```javascript
+const path = require('path');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  }
+};
+```
+
+Now you can simply run ```webpack`` to compile a new distribution bundle.
+
+You can even adjust your ```package.json``` file to save some time:
+```json
+{
+  ...
+  "scripts": {
+    "build": "webpack"
+  },
+  ...
+}
+```
+
+I'm told that now ```npm run build``` can be used in place of the longer commands.
+
+Read more here on the [official site](https://webpack.js.org/concepts/)
+
+[Basic Setup Example](https://webpack.js.org/guides/getting-started/)
+[Asset Management](https://webpack.js.org/guides/asset-management/)
