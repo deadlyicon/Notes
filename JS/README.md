@@ -4,10 +4,10 @@
 # Table of Contents
 1. [Array Methods](#Array-Methods)
 2. [Object Keys and Values](#Object-Keys-and-Values)
-3. [Closure](#Closure)
-4. [getElementById](#getElementById)
-5. [Callbacks](#Callbacks)
-6. [IFEs](#IIFEs)
+3. [Functions](#Functions)
+4. [Closure](#Closure)
+5. [getElementById](#getElementById)
+6. [Callbacks](#Callbacks)
 7. [ECMAScript 2015](#ECMAScript-2017)
 
 
@@ -71,6 +71,81 @@ values = Object.keys(obj).map(function(key){
   return obj(key);
 })
 ````
+
+
+<a name="Functions"></a>
+## Functions
+
+**Named Functions**
+
+A regular, named function declaration looks like the following. It will not run until it is explicitly called.
+
+```javascript
+function area(width, height){
+  return width * height;
+}
+
+var size = area(4,5);
+```
+
+
+**Function Expressions**
+
+A Function expression requires a ```;``` and the end and is used when the interpreter was expecting  an expression but got a function instead. This will not run until the variable that stores th function is called.
+
+```javascript
+var area = function(width, height){
+  return width * height;
+};
+
+var size = area(3,4);
+```
+
+
+**IIFEs**
+
+An immediately-invoked functions expression is a function expression, named or unnamed, that is executed right after it's creation. There are two slightly different syntax patterns:
+
+```javascript
+// variant 1, the preferred pattern
+(function () { alert('something!');
+})();
+
+//variant 2
+(function () { alert('something!');
+}());
+```
+
+To turn your regular function into an IIFE you need to preform two steps.
+
+1. You need to wrap the whole function in parentheses. As the name suggests, an IIFE must be a function expression, not a function definition. So, the purpose of the enclosing parentheses is to transform a function definition into an expression. This is because, in JavaScript, everything in parentheses is treated as an expression.
+
+2. You need to add a pair of parentheses at the very end (variant 1), or right after the closing curly brace (variant 2), which causes the function to be executed immediately.
+
+Here are three things to keep in mind when writing IIFEs.
+
+1. If you assign a function to a variable, you don't need to enclose the whole function in parens, because it is already an expression.
+
+```javascript
+var sayWoohoo = function(){
+  alert('Woohoo!');
+}();
+```
+
+2. A semicolon is required at the end of an IIFE, otherwise your code may not work properly.
+
+3. You can pass arguments to an IIFE, like so:
+
+```javascript
+(function (name, profession){
+  console.log("My name is " + name + ". I'm an " + profession + ".");
+})("Jackie Chan", "actor");  //output: My name is Jackie Chan, I'm an actor.
+```
+
+
+An IIFE is often used to create scope to encapsulate modules. Within the module there is a private scope that is self-contained and safe from unwanted or accidental modification. This technique, called the module pattern, is a powerful example of using closures to manage scope, and it’s heavily used in many of the modern JavaScript libraries (jQuery and Underscore, for example).
+
+
 
 <a name="Closure"></a>
 ## Closure
@@ -329,52 +404,6 @@ publish("10 Tips for JavaScript Developers", "Jane Doe", articles);
 
 [Callbacks, IIFEs and Closures](https://www.sitepoint.com/demystifying-javascript-closures-callbacks-iifes/)
 
-
-
-<a name="IIFEs"></a>
-## IIFEs
-
-An immediately-invoked functions expression is a function expression, named or unnamed, that is executed right after it's creation. There are two slightly different syntax patterns:
-
-```javascript
-// variant 1
-(function () { alert('something!');
-})();
-
-//variant 2
-(function () { alert('something!');
-}());
-```
-
-To turn your regular function into an IIFE you need to preform two steps.
-
-1. You need to wrap the whole function in parentheses. As the name suggests, an IIFE must be a function expression, not a function definition. So, the purpose of the enclosing parentheses is to transform a function definition into an expression. This is because, in JavaScript, everything in parentheses is treated as an expression.
-
-2. You need to add a pair of parentheses at the very end (variant 1), or right after the closing curly brace (variant 2), which causes the function to be executed immediately.
-
-Here are three things to keep in mind when writing IIFEs.
-
-1. If you assign a function to a variable, you don't need to enclose the whole function in parens, because it is already an expression.
-
-```javascript
-var sayWoohoo = function(){
-  alert('Woohoo!');
-}();
-```
-
-2. A semicolon is required at the end of an IIFE, otherwise your code may not work properly.
-
-3. You can pass arguments to an IIFE, like so:
-
-```javascript
-(function (name, profession){
-  console.log("My name is " + name + ". I'm an " + profession + ".");
-})("Jackie Chan", "actor");  //output: My name is Jackie Chan, I'm an actor.
-```
-
-
-
-An IIFE is often used to create scope to encapsulate modules. Within the module there is a private scope that is self-contained and safe from unwanted or accidental modification. This technique, called the module pattern, is a powerful example of using closures to manage scope, and it’s heavily used in many of the modern JavaScript libraries (jQuery and Underscore, for example).
 
 
 <a name="ECMAScript-2017"></a>

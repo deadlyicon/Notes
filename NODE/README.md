@@ -495,7 +495,8 @@ babel server/index.js -o server/index.babel.js
 
 
 
-**Babel Register Guide**
+**Babel-Register Guide**
+
 You probably don't want to have to do the above for each and every file. Instead use register for dev.
 
 1. Make a new folder, ```bin```, then make two new files, ```dev``` and ```production``` in ```bin```. No .js extensions.
@@ -515,7 +516,10 @@ require('./../server/index')
 
 6. Now running ```npm start``` will do the same as above, build your development build.
 
+
+
 **Now for Production**
+
 What you are doing here is compiling your server folder, spit out a compiled directory called ```dist```, and then go host it somewhere like heruko.
 
 1. Make a few new scripts in ```package.json``` like so:
@@ -544,6 +548,7 @@ require('./../dist/index')
 ```
 
 **Conclusion**
+
 Now you should be able to write any ES2015, ES2017 code you want to and then run the following commands in your new environment:
 
 ```npm run start``` -  test your code
