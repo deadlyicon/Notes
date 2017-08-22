@@ -4,7 +4,7 @@
 3. [Customizing Your Prompt](#Customizing-Your-Prompt)
 4. [How to check for an env variable](#How-to-check-for-an-env-variable)
 5. [How to set a file to executable](#How-to-set-a-file-to-executable)
-
+6. [Errors](#Errors)
 
 <a name="Shell-Initialization-Files"></a>
 ## Shell Initialization Files
@@ -98,3 +98,15 @@ Boom another easy one:
 chmod a+x <filename>
 ```
 
+You can also make almost any scrupt executable by including the sh-bang that points to what is able to execute that particular file. A node script would have this at the top if you wanted to execute the script directly.  
+```javascript
+#!/user/bin/env node
+```
+
+
+
+
+<a name="Errors"></a>  
+## Errors  
+
+```echo $?``` will read the exit status of the last command executed.  

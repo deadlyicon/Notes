@@ -269,7 +269,7 @@ The Read Eval Print Loop, it's like the console in Chrome Dev Tools, but for Nod
 * Run ```node``` to enter Node REPL.
 * You can define functions in REPL.
 
-```
+```javascript
 function add(a, b){
   return a + b;
 }
@@ -287,7 +287,7 @@ In addition you can use this interface to debug code or test ideas. Here's some 
 
 * Node REPl can also do multiline expression similar to javascript. Check out the following do-while loop in action
 
-```
+```bash
 $ node
 > var x = 0
 undefined
@@ -306,7 +306,7 @@ undefined
 
 * You can use ```_``` to get the last result:
 
-```
+```bash
 $ node
 > var x = 10
 undefined
@@ -343,6 +343,8 @@ undefined
   **.save** filename − save the current Node REPL session to a file.
 
   **.load** filename − load file content in current Node REPL session.
+
+  **process.env.envVar** - Print out the given environment variable.
 
 <a name="NPM"></a>
 ## NPM

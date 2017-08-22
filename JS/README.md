@@ -9,6 +9,7 @@
 5. [getElementById](#getElementById)
 6. [Callbacks](#Callbacks)
 7. [ECMAScript 2015](#ECMAScript-2017)
+9. [MVC](#MVC)
 
 
 <a name="Array-Methods"></a>
@@ -414,6 +415,10 @@ publish("10 Tips for JavaScript Developers", "Jane Doe", articles);
 With each iteration of ES new features are added. ES2015 included the ```=>``` function operators. [Here are some more details about **ES2015**](https://babeljs.io/learn-es2015/).
 
 
+
+<a name="MVC"></a>  
+## MVC  
+Model–view–controller (MVC) is a software architectural pattern for implementing user interfaces on computers. It divides a given application into three interconnected parts. This is done to separate internal representations of information from the ways information is presented to, and accepted from, the user. The MVC design pattern decouples these major components allowing for efficient code reuse and parallel development.  
 
 
 
