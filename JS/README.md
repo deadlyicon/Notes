@@ -10,6 +10,7 @@
 6. [Callbacks](#Callbacks)
 7. [ECMAScript 2015](#ECMAScript-2017)
 9. [MVC](#MVC)
+10.[String Manipulation](#String-Manipulation)
 
 
 <a name="Array-Methods"></a>
@@ -416,12 +417,48 @@ With each iteration of ES new features are added. ES2015 included the ```=>``` f
 
 
 
-<a name="MVC"></a>  
-## MVC  
-Model–view–controller (MVC) is a software architectural pattern for implementing user interfaces on computers. It divides a given application into three interconnected parts. This is done to separate internal representations of information from the ways information is presented to, and accepted from, the user. The MVC design pattern decouples these major components allowing for efficient code reuse and parallel development.  
+<a name="MVC"></a>
+## MVC
+Model–view–controller (MVC) is a software architectural pattern for implementing user interfaces on computers. It divides a given application into three interconnected parts. This is done to separate internal representations of information from the ways information is presented to, and accepted from, the user. The MVC design pattern decouples these major components allowing for efficient code reuse and parallel development.
 
 
 
 
 
+<a name="String-Manipulation"></a>
+## String Manipulation
 
+Let's say you need to take a string of DNA characters and transcribe them to RNA. Here's a script to do that:
+
+```javascript
+//transcriber constructor
+var Transcriber = function() {
+
+  //Create rna string
+  this.toRna = function(dna){
+    return dna.split('').map(this.transcribeLetter).join('');
+  };
+
+  //Transcribe the string, now an array
+  this.transcribeLetter = function(letter){
+    if (letter === 'C') return 'G';
+    if (letter === 'G') return 'C';
+    if (letter === 'A') return 'U';
+    if (letter === 'T') return 'A';
+
+    throw new Error('Invalid input');
+  };
+};
+
+module.exports = Transcriber;
+```
+
+The receiving file would need to require this one, whatever it is named. Lets' look at it.
+
+1. Our first method is a bit complicated. It will return a another string according to the ```.map``` method we run on it. ```.map``` is good here because we have a number of things that we want to turn into other things based on some logic that will appear in a separate method. But ```.map``` only works on arrays?
+2. Before we call ```.map``` we call ```.split('')``` on our original dna string, which splits each character into it's own array value, so now ```.map``` works.
+3. ```.map``` needs a callback, so for that we call the function that will be our logic for decoding this DNA.
+4. Lastly, we ```.join``` this array back up into a string. All of this is returned as a single string with ```.toRna``` is called.
+6. Of note on that translation logic, you don't need to specify any ```for``` or ```while``` loops because this method is being called by ```.map```, which by it's nature goes over each of the array elements one at a time, like a for loop. So you can simply return the translated value if it matches.
+
+**_NEAT_**
