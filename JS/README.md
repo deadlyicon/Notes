@@ -3,6 +3,7 @@
 
 # Table of Contents
 1. [Array Methods](#Array-Methods)
+  * [Array soriting](#Array-Sorting)
 2. [Object Keys and Values](#Object-Keys-and-Values)
 3. [Functions](#Functions)
 4. [Closure](#Closure)
@@ -60,14 +61,56 @@ let sum = numbers.reduce(function(sum, number){
 The end value is a starting value, if not provided then the first item in the array will be used. Can be used to reduce an array to a single value.
 
 
+
+<a name="Array-Sorting"></a>
+## Array Sorting
+
+* ```Array#sort```
+* Bubble algorithm sort
+
+1. You compare the first item with the second item. Acuatlly you start your loop at position ```arr[1]``` and then compare to the one behind it, ```arr[0]```. If the first item is bigger, ```arr[0]``` in the first loop, you swap them so the bigger item is in the second position.
+2. You step into the next loop for j, and compare the second and third item. You swap them if the second item is bigger than the third, such that the largest of the two compared is always in the next arry position, ```arr[j]```.
+3. Keep doing that, hence bubbling up the biggest item in the array to the last position.
+4. Once we complete this first pass, we repeat this bubble process, starting from the first but ending at the second to last position in the array, because we already know the last position is the largest number from our previous pass.
+5. These passes continue, comparing and swapping starting at the first position until the third to last, then fourth to last, fifth to last until we arrive at the first position in the array.
+6. In the end you will have an ordered array.
+
+```
+function bubbleSort(arr){
+   var len = arr.length;
+   for (var i = len-1; i>=0; i--){
+     for(var j = 1; j<=i; j++){
+       if(arr[j-1]>arr[j]){
+           var temp = arr[j-1];
+           arr[j-1] = arr[j];
+           arr[j] = temp;
+        }
+     }
+   }
+   return arr;
+}
+bubbleSort([7,5,2,4,3,9]); //[2, 3, 4, 5, 7, 9]
+bubbleSort([9,7,5,4,3,1]); //[1, 3, 4, 5, 7, 9]
+bubbleSort([1,2,3,4,5,6]); //[1, 2, 3, 4, 5, 6]
+```
+
+[Yay pictures!](http://codingmiles.com/sorting-algorithms-bubble-sort-using-javascript/)
+
+* Insertion sort
+* Selection sort
+
+
+
 <a name="Object-Keys-and-Values"></a>
 ## Object Keys and Values
 * How to return all the keys of an object:
+
 ```javascript
 Object.keys(obj);
 ```
 
 * How to return all the values of an object:
+
 ```javascript
 values = Object.keys(obj).map(function(key){
   return obj(key);
