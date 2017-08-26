@@ -66,7 +66,7 @@ The end value is a starting value, if not provided then the first item in the ar
 ## Array Sorting
 
 * ```Array#sort```
-* Bubble algorithm sort
+* Bubble agorithm sorting
 
 1. You compare the first item with the second item. Acuatlly you start your loop at position ```arr[1]``` and then compare to the one behind it, ```arr[0]```. If the first item is bigger, ```arr[0]``` in the first loop, you swap them so the bigger item is in the second position.
 2. You step into the next loop for j, and compare the second and third item. You swap them if the second item is bigger than the third, such that the largest of the two compared is always in the next arry position, ```arr[j]```.
@@ -99,6 +99,37 @@ bubbleSort([1,2,3,4,5,6]); //[1, 2, 3, 4, 5, 6]
 * Insertion sort
 * Selection sort
 
+1. We start by assuming the that the first number in the array is the minimum.
+2. We then look through the array and see if any value is smaller than what we have in the first first position.
+3. If (when) we find that array location that contains a lesser value that our initial, in the first pass position ```arr[0]```, we change ```mindIdx``` to whatever value can be put in the index to give us our true, smaller value.
+4. Now that we've found the locaiton of the smallest value, we swap some values.
+  * a temp variable gets the value of our previsouly assumed lowest number
+  * The actual smallest value gets put into our current array position, which starts at the first and works it's way up during the loops.
+  * Finally, the previous current vaule that was our current position, that was our assumed smallest number, is placed into the ```arr[minIdx]``` location, essentially swapping values of ```arr[i]``` and ```arr[minIdx]```.
+5. Repeat this process starting from the next position up in the array, ```arr[1]``` for example, and continune until the end of the array. You will have an ordered array.
+
+
+```javascript
+function selectionSort(arr){
+  var len = arr.length;
+
+  for(var i = 0; i < len; i++){
+    var minIdx = i;
+    for(var j = i + 1; j < len; j++){
+      if(arr[j] < arr[minIdx]){
+        minIdx = j;
+      }
+    }
+    var temp = arr[i];
+    arr[i] = arr[minIdx];
+    arr[minIdx] = temp;
+  }
+  return arr;
+}
+
+
+console.log(selectionSort([8,5,2,6]));
+```
 
 
 <a name="Object-Keys-and-Values"></a>
