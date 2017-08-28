@@ -4,7 +4,7 @@
 # Table of Contents
 1. [Array Methods](#Array-Methods)
   * [Array soriting](#Array-Sorting)
-2. [Object Keys and Values](#Object-Keys-and-Values)
+2. [Objects](#Objects)
 3. [Functions](#Functions)
 4. [Closure](#Closure)
 5. [getElementById](#getElementById)
@@ -76,27 +76,32 @@ The end value is a starting value, if not provided then the first item in the ar
 6. In the end you will have an ordered array.
 
 ```
-function bubbleSort(arr){
-   var len = arr.length;
-   for (var i = len-1; i>=0; i--){
-     for(var j = 1; j<=i; j++){
-       if(arr[j-1]>arr[j]){
-           var temp = arr[j-1];
-           arr[j-1] = arr[j];
-           arr[j] = temp;
-        }
-     }
-   }
-   return arr;
+function bubbleSort(arr) {
+  var len = arr.length;
+  for(var i = len - 1; i >= 0; i--){
+    for (var j = 1; j <= i; j++){
+      if (arr[j-1] > arr[j]){
+        swap(arr, j-1, j);
+      }
+    }
+  }
+  return arr;
 }
-bubbleSort([7,5,2,4,3,9]); //[2, 3, 4, 5, 7, 9]
-bubbleSort([9,7,5,4,3,1]); //[1, 3, 4, 5, 7, 9]
-bubbleSort([1,2,3,4,5,6]); //[1, 2, 3, 4, 5, 6]
+
+
+function swap(arr, i, j) {
+  var temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+}
+
+var arr = [7,4,6,10,2,9,3,5,8,1];
+console.log(bubbleSort(arr));
 ```
 
 [Yay pictures!](http://codingmiles.com/sorting-algorithms-bubble-sort-using-javascript/)
 
-* Insertion sort
+
 * Selection sort
 
 1. We start by assuming the that the first number in the array is the minimum.
@@ -110,30 +115,116 @@ bubbleSort([1,2,3,4,5,6]); //[1, 2, 3, 4, 5, 6]
 
 
 ```javascript
-function selectionSort(arr){
+function selectionSort(arr) {
   var len = arr.length;
-
-  for(var i = 0; i < len; i++){
+  for (var i = 0; i < len; i++){
     var minIdx = i;
-    for(var j = i + 1; j < len; j++){
-      if(arr[j] < arr[minIdx]){
+    for ( var j = i + 1; j < len; j++){
+      if (arr[j] < arr[minIdx]){
         minIdx = j;
       }
     }
-    var temp = arr[i];
-    arr[i] = arr[minIdx];
-    arr[minIdx] = temp;
+    if (minIdx != i){
+      swap(arr, i, minIdx);
+    }
   }
   return arr;
 }
 
+function swap(arr, i, j){
+  var temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+ }
 
-console.log(selectionSort([8,5,2,6]));
+var arr = [7,4,6,10,2,9,3,5,8,1];
+console.log(selectionSort(arr));
 ```
 
 
-<a name="Object-Keys-and-Values"></a>
-## Object Keys and Values
+* Insertion sort
+
+```javascript
+function insertionSort(arr) {
+  const len = arr.length;
+
+  for (var i = 1; i < len; i++){
+    var tmp = arr[i];
+    for (var j = i -1; j >= 0 && arr[j] > tmp; j--){
+      arr[j + 1] = arr[j];
+    }
+    arr[j+1] = tmp;
+  }
+
+  return arr;
+}
+
+arr = [5,3,7,9,2,10,7,4,3,8];
+console.log(insertionSort(arr));
+```
+
+With Insertion Sort you follow these steps:
+
+1. Starting at the start of the array (```arr[1]``` actually), You temporaly store the value of that element.
+2. You then compare that array element to the previous.
+3. Built into the for loop, as long as the previous elment, ```arr[j]``` is larger than whatever value was in the element you started this loop on, shift the previous value up.
+4. Repeat this until you reach the start of the array, or until the value you saved in the outer loop is larger than ```arr[j]```.
+5. Once that happens, put the value of ```tmp``` into whereever ```arr[j+1]``` is that the time.
+
+This basically saves the value of the element in the outer loop and shifts everything in the array up by one until that value that you saved is greater than the value you are able to shift up, thus it's correct spot.
+
+
+<a name="Objects"></a>
+## Objects
+
+Objects in Javascript are super important, as OOB is the prevelant coding paradigm.
+
+Basic object:
+```javasript
+let obj = {
+  a: 1
+  b: 2
+  sum: function(){
+    return a + b
+  }
+}
+
+obj['a'] // <= 1
+obj.b    // <= 2
+obj.sum  // <= 3
+```
+
+You can turn objects into constructors to build more objects. While ```class``` is a new tool, constructors are still the more common method:
+
+```javascript
+function Viechle(engine, wheels)}
+  this.engine = engine;
+  this.wheels = wheels;
+  this.status = function(){
+    return 'running';
+  }
+}
+
+var pulsar = new Veichle(V-7, 4);
+pulsar.wheels // <= 4
+```
+
+You can add methods to constructs and build a new constructors based off the original:
+
+```javascript
+
+function SportsCar(){
+}
+
+SportsCar.prototype.goFast = function(){
+  console.log('VROOM!')
+}
+
+object.assign(SportsCar.prototype, Vehicle.prototype)
+```
+
+The last line there is known and _prototypal inheritance_
+
 * How to return all the keys of an object:
 
 ```javascript
