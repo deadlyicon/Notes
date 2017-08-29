@@ -34,7 +34,7 @@ All Contacts:
 |----------------------+--------------------------------|
 ```
 
-The code below is a solution to that problem, almost most of the contacts have beem omitted for the readability of this file. Let's look at what is going on in the file.
+The code below is a solution to that problem,  most of the contacts have been omitted for the readability of this file. Let's look at what is going on in the file.
 
 
 
@@ -129,10 +129,7 @@ _Bingo Bango Benchmark_
 
 Below is an example of the kind of contact data that is being passed.
 
-////////////////////////////////////////////////////////////
-/*          Do not make changes below this line           */
-////////////////////////////////////////////////////////////
-
+```javascript
 addContacts([
   {
     "first_name": "Tanny",

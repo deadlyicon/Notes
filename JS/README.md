@@ -11,7 +11,7 @@
 6. [Callbacks](#Callbacks)
 7. [ECMAScript 2015](#ECMAScript-2017)
 9. [MVC](#MVC)
-10.[String Manipulation](#String-Manipulation)
+10. [String Manipulation](#String-Manipulation)
 
 
 <a name="Array-Methods"></a>
@@ -400,9 +400,9 @@ function setLocation(city){
 
   printLocation();
 }
-```
-setLocation('Paris'); // output: You are in Paris, France
 
+setLocation('Paris'); // output: You are in Paris, France
+```
 
 2. Inner functions can refer to variables defined in outer functions even after the latter have returned.
 
@@ -420,7 +420,6 @@ function setLocation(city) {
 var currentLocation = setLocation ("Paris");
 
 currentLocation();
-
 ```
 
 3. Inner functions store their our function's variables by reference, not by value.
@@ -443,13 +442,9 @@ myLocation.get();           // output: Sydney
 ```
 
 
-
-3.
-
-
 <a name="getElementById"></a>
 ## getElementById
-This is a hand function for grabbing something with JS from an html page.
+This is a handy function for grabbing something with JS from an html page.
 Identify an element with an ```id``` tag in your html doc:
 ```html
 <td>Lenny Bear: </td>
