@@ -171,7 +171,59 @@ With Insertion Sort you follow these steps:
 4. Repeat this until you reach the start of the array, or until the value you saved in the outer loop is larger than ```arr[j]```.
 5. Once that happens, put the value of ```tmp``` into whereever ```arr[j+1]``` is that the time.
 
-This basically saves the value of the element in the outer loop and shifts everything in the array up by one until that value that you saved is greater than the value you are able to shift up, thus it's correct spot.
+This basically saves the value of the element in the outer loop and shifts everything in the array up by one until that value that you saved is greater than the value you are able to shift up, thus it's correct spot.`
+
+
+* Array.sort
+
+The built in sorting method. This is somewhat unstable without using a compare function, as it natievly compares values based on unicode, so 10 comes before 2, for example.
+
+```javascript
+arr = [5,3,7,9,2,10,7,4,3,8]
+
+arr.sort();
+
+console.log(arr); //[ 10, 2, 3, 3, 4, 5, 7, 7, 8, 9 ]
+```
+
+A compare function is really the way to do it:
+
+The "compare" function must take two arguments, often referred to as a and b. Then you make the compare function return 0, greater than 0, or less than 0, based on these values, a and b.
+
+Return greater than 0 if a is greater than b
+Return 0 if a equals b
+Return less than 0 if a is less than b
+With these three return values, and only two arguments, it is possible to write a compare function that can sort any type of input data type, or complex data structures.
+
+Then, when you call sort(), with your custom compare function, the compare function is called on pairs in your to-be-sorted list, to determine the proper ordering.
+
+Lets walk through a simple example... Suppose you're only sorting some numbers, so we have a very simple compare function:
+
+```javascript
+function compare(a,b) {
+    return a - b;
+}
+```
+
+Simply subtracting b from a will always return greater than zero if a is larger than b, 0 if they are equal, or less than zero if a is less than b. So it meets the requirements for a compare function.
+
+Now lets suppose this is our list of numbers to sort:
+
+```var numbers = [1,5,3.14];```
+When you call numbers.sort(compare), internally it will actually execute:
+
+```
+compare(1,5);     // Returns -4, a is less than b
+compare(1,3.14);  // Return -2.14, a is less than b
+compare(5,3.14);  // returns 1.86, a is greater than b
+```
+
+If you've ever done manual sorting or alphabetizing, you've done precisely the same thing, probably without realizing it. Even though you may have dozens or hundreds of items to compare, you're constantly comparing only two numbers (or author's last names, or whatever) at a time. Going through or short list of three numbers again, you'd start by comparing the first two numbers:
+
+Is 1 greater than or less than 5? Less than, so put these two numbers in our list: 1,5
+Is 3.14 greater than or less than 1? Greater than, so it goes after 1 in the new list
+Is 3.14 greater than or less than 5 in our new list? Less than, so it goes before 5. Our new list is now [1,3.14,5]
+Because you can provide your own compare() function, it is possible to sort arbitrarily complex data, not just numbers.
 
 
 <a name="Objects"></a>
