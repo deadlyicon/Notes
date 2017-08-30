@@ -11,13 +11,6 @@ const addContact = function(firstName, lastName, email) {
 const addContacts = function(contacts) {
   console.log('Loading contact data...');
 
-  //sort contacts into alphabetical order
-  contacts.sort(function(a,b){
-    if (a.first_name < b.first_name) { return -1; }
-    if (a.first_name > b.first_name) { return 1; }
-    return 0;
-  });
-
   //send contact data to addContact()
   for (var i = 0; i < contacts.length; i++) {
     addContact( contacts[i].first_name, contacts[i].last_name, contacts[i].email);
@@ -26,32 +19,48 @@ const addContacts = function(contacts) {
 };
 
 
+const determineLongest = function(array, key){
+  let longest = array.map(function(item){
+    return item[key].length;
+    });
+
+  longest = longest.sort(function(a,b){
+    return b - a;
+  })[0];
+
+  return longest;
+};
+
+
 const printContacts = function() {
+
+  //sort contacts into alphabetical order
+  contactStorage.sort(function(a,b){
+    if (a.fullName < b.fullName) { return -1; }
+    if (a.fullName > b.fullName) { return 1; }
+    return 0;
+  });
+
+  //determine the length of the longest name
+  longestNameLength = determineLongest(contactStorage, 'fullName');
+  longestEmailLength = determineLongest(contactStorage, 'email');
+
   //print the initial lines
-  console.log(`All Contacts:
-|----------------------+--------------------------------|
-| Full Name            | Email Address                  |
-|----------------------+--------------------------------|`);
+  console.log('All Contacts:');
+  console.log('|' + '-'.repeat(longestNameLength + 2) + '+' + '-'.repeat(longestEmailLength + 2) + '|');
+  console.log('| Full Name' + ' '.repeat(longestNameLength - 8) + '| ' + 'Email Address' + ' '.repeat(longestEmailLength - 12) + '|');
+  console.log('|' + '-'.repeat(longestNameLength + 2) + '+' + '-'.repeat(longestEmailLength + 2) + '|');
 
   //adjust the contacts to fit the table, then print the contact
   contactStorage.forEach(function(contact){
     name = contact.fullName;
     email = contact.email;
 
-    if (name.length < 20) {
-      name = name + new Array((20 - name.length) +1).join(' ');
-    }
-    if (email.length < 30) {
-      email = email + new Array((30 - email.length) +1).join(' ');
-    }
-
-    //print the contacts
-    console.log('| ' + name + ' | ' + email + ' |');
-
+    console.log('| ' + name + ' '.repeat((longestNameLength - name.length)+1) + '| ' + email + ' '.repeat((longestEmailLength - email.length) +1) + '|');
   });
 
-  //print the final lines.
-  console.log('|----------------------+--------------------------------|');
+  //print the final line.
+  console.log('|' + '-'.repeat(longestNameLength + 2) + '+' + '-'.repeat(longestEmailLength + 2) + '|');
 };
 
 
@@ -162,6 +171,6 @@ addContacts([
     "last_name": "Hixley",
     "email": "whixleyj@homestead.com",
   },
-])
+]);
 
-printContacts()
+printContacts();

@@ -146,3 +146,86 @@ addContacts([
 
 printContacts()
 ```
+
+
+## Refactoring
+
+As per Jared's advice, we have removed the sorting algorithm from the addContacts() so it only runs once, in printContacts().
+
+Also suggested was to create a dynamic way to draw those ```-```s that make up the borders of the table. Let's look at how we did that.
+
+```javascript
+
+const determineLongest = function(array, key){
+  let longest = array.map(function(item){
+    return item[key].length;
+    });
+
+  longest = longest.sort(function(a,b){
+    return b - a;
+  })[0];
+
+  return longest;
+};
+```
+
+In order to get this to work were were going to have know the longest fullName and email value in the ```contactStorage``` array. We created a function to take care of this.
+
+1. We return an array of the lengths of the values in the given array. So array and key come in, and then we get an array of lengths from the key value that was passed, either fullName or email.
+
+2. We then take that array and sort it so the largest number is at the top of the array, and we assign that value, index ```[0]``` to our value longest, which is then returned.
+
+
+```javascript
+const printContacts = function() {
+
+  //sort contacts into alphabetical order
+  contactStorage.sort(function(a,b){
+    if (a.fullName < b.fullName) { return -1; }
+    if (a.fullName > b.fullName) { return 1; }
+    return 0;
+  });
+
+  //determine the length of the longest name
+  longestNameLength = determineLongest(contactStorage, 'fullName');
+  longestEmailLength = determineLongest(contactStorage, 'email');
+```
+
+Note the sorting algorithm is in the ```printContacts()``` function now.
+
+Ok so to determine the longest string in any set of keys, we now call our new function and pass it the array to look at, and the name of the key we are looking for. We do this for both ```fullName``` and ```email.```
+
+
+```javascript
+  //print the initial lines
+  console.log('All Contacts:');
+  console.log('|' + '-'.repeat(longestNameLength + 2) + '+' + '-'.repeat(longestEmailLength + 2) + '|');
+  console.log('| Full Name' + ' '.repeat(longestNameLength - 8) + '| ' + 'Email Address' + ' '.repeat(longestEmailLength - 12) + '|');
+  console.log('|' + '-'.repeat(longestNameLength + 2) + '+' + '-'.repeat(longestEmailLength + 2) + '|');
+
+  //adjust the contacts to fit the table, then print the contact
+  contactStorage.forEach(function(contact){
+    name = contact.fullName;
+    email = contact.email;
+
+    console.log('| ' + name + ' '.repeat((longestNameLength - name.length)+1) + '| ' + email + ' '.repeat((longestEmailLength - email.length) +1) + '|');
+  });
+
+  //print the final line.
+  console.log('|' + '-'.repeat(longestNameLength + 2) + '+' + '-'.repeat(longestEmailLength + 2) + '|');
+};
+```
+
+Armed with these numbers of how long the longest email and fullName properties are, we now draw the table. Of note we used ```.repeat()```, which will simply repeat the string this method is called on however many times you tell it.
+
+In this case, outside of the first few and last lines, we are able to print each name plus however many spaces the longest name value is, minus the name we are priting, plus 1 for the white space around the start and end of the line. We then do the same for the eamil line.
+
+_boom_
+
+
+
+
+
+
+
+
