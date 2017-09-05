@@ -11,13 +11,15 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 
 # Table of Contents
 1. [Modules](#Modules)
-2. [Accessing the File System with Node](#Accessing-the-File-System-with-Node)
-3. [Editing the File System](#Editing-the-file-system)
-4. [REPL](#REPL)
-5. [NPM](#NPM)
-6. [HTTP](#HTTP)
-7. [BABEL](#BABEL)
-8. [Webpack](#Webpack)
+2. [Node Console](#Node-Console)
+3. [Accessing the File System with Node](#Accessing-the-File-System-with-Node)
+4. [Editing the File System](#Editing-the-file-system)
+5. [REPL](#REPL)
+6. [NPM](#NPM)
+7. [HTTP](#HTTP)
+8. [BABEL](#BABEL)
+9. [Webpack](#Webpack)
+
 
 
 <a name="Modules"></a>
@@ -157,6 +159,22 @@ exports.one = function(){
 exports.two = function(){
   console.log('two');
 }
+```
+
+<a name="Node-Console"></a>
+## Node Console
+
+You can create a custom console object and with a simple way to log to actual files. Below is a simple example found in the [documentation](https://nodejs.org/api/console.html).
+
+```javascript
+const output = fs.createWriteStream('./stdout.log');
+const errorOutput = fs.createWriteStream('./stderr.log');
+// custom simple logger
+const logger = new Console(output, errorOutput);
+// use it like console
+const count = 5;
+logger.log('count: %d', count);
+// in stdout.log: count 5
 ```
 
 

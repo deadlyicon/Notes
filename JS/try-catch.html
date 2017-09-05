@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Try, Catch and Finally statements</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"  />
+</head>
+<body>
+  <script type="text/javascript">
+
+    a = 1;
+    b = 2;
+    c = 3;
+
+    // document.write(d);
+
+
+    /* Below, we try to get the value of d, but it doesn't exist. Instead of stopping the whole process, if we can't find that object or object property, we catch the error and pass it as 'ex' to the catch function. We do something about that error and this allows the page to continue */
+
+    //It would stop the page and olny output to the console if we used the below
+    // getVarVaule(d);
+
+    //Instead this is a better way. Below, we are letting the browser generatre the error and displaying that.
+
+    function getVarVaule(variable) {
+      document.write(variable + '<br/><br/');
+    }
+
+    try {
+      getVarVaule(d);
+    } catch(ex) {
+      document.write(ex + '<br/><br/>');
+    }
+
+
+
+
+    //Here, we are creating our own error in the divide function that we in turn pass back to the catch function in the below block. Note how this is different than having the browser generate the error.
+
+    function divide(number, demon) {
+      if (demon === 0){
+        throw new Error('Whadday want a black hole in your computer?!');
+      }
+      document.write(number/demon);
+    }
+
+
+    try {
+      divide(10,0);
+    } catch(err) {
+      document.write(err + '<br/><br/>');
+    }
+
+    // document.write(10/0);
+
+
+    const list = ['Ben', 'ben@abc.com', 'Jenna', 'jenna@abc.com', 'Lenny', 'lenny@abc.com'];
+    let i = 0
+    let names = [];
+    let errMsgs = [];
+    let error_count = 0;
+
+    while (i < list.length){
+      try {
+        result = list[i].search(/@/); //regular expression
+        if (result == - 1) {
+          names.push(list[i]);
+        } else {
+          throw new Error(list[i] + ' is not a valid name');
+        }
+      } catch (err) {
+        errMsgs.push(err);
+        error_count++;
+      } finally {
+        i++;
+      }
+    }
+
+    document.write(names + '<br/><br/>');
+
+    document.write('An error was caught ' + errMsgs.length + ' time(s)<br/><br/>');
+
+    i = 0;
+    while (i < errMsgs.length){
+      document.write(errMsgs[i] + '<br/>');
+      i++;
+    }
+
+
+
+    document.write('<br/>The rest of the document completed!.');
+  </script>
+</body>
+</html>
