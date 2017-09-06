@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+
+  <!-- strat 1 -->
+  <button onclick="onButtonClick()">Button 1</button>
+    <!-- reference a global var, and call that function. Dont use this one b/c you are poluting your global space as well as mixing js functionality in html displace space -->
+
+  <!-- strat 2 -->
+  <button class="button2">Button 2</button>
+  <!-- Assign a property onto the dom object that represent button2. Dont use this once because if you want two click handelers you will overwrite the previous one. -->
+
+  <!-- strat 3 -->
+  <button class="button3">Button 3</button>
+<!-- Use an addEventListener function to give a callback for when the event is triggered. Use this one b/c two completely sepearets parts of code can bind to the same DOM node and they are unaware of eachother. This way everything is an event and you can just listened to when they are emitted -->
+
+
+  <script type="text/javascript" src="/index.js"></script>
+</body>
+</html>

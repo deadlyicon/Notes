@@ -472,6 +472,11 @@ server.listen(3000);
 5. Actually start the server with ```node <fileName>```
 6. Point your browser to localhost:3000 and watch your console.
 
+You can also start a quick server by entering the following in your working directory:
+```bash
+http-server -c-1
+```
+
 
 <a name = 'BABEL'></a>
 ## BABEL

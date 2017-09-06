@@ -14,6 +14,7 @@
 10. [String Manipulation](#String-Manipulation)
 11. [Error Handling](#Error-Handling)
 12. [Regular Expressions](#Regular-Expressions)
+13. [How to red outline elements](#How-to-red-outline-elements)
 
 <a name="Array-Methods"></a>
 ## Array Methods
@@ -1238,3 +1239,24 @@ How's that work?
 
 [Regex Adventure](https://github.com/workshopper/regex-adventure)
 [Regex @ FreeCodeCamp](https://www.freecodecamp.com/challenges/sift-through-text-with-regular-expressions)
+
+
+
+<a name="How-to-red-outline-elements"></a>
+## How to red outline elements
+
+* You can look at any page and outline each element in red dotted lines.
+
+This can help you to see how pages have been built. To do this:
+
+1. Open dev tools
+2. Click on element tab
+on right of window click plus button to create new style.
+3. Assign the style for everything with
+
+```css
+* {
+  outline: 1px dotted red;
+}
+```
+
