@@ -685,9 +685,92 @@ check out [This Guy](https://www.youtube.com/watch?v=Vv1CLj4vLjE) for a great tu
 
 Considered good practice to check for errors more locally in functions rather than at the periphery of your application.
 
+You can handle errors synchronously or asynchronously. Below, the examples are all synchronous. To do asynchronous error handling you would pass a ```callback(err, result){...}``` as an argument. Or deal with event emitters.
 
+* When do I use a synchronous function or an asynchronous function?
+
+Generally, a function may deliver operational errors synchronously (e.g., by throwing) or asynchronously (by passing them to a callback or emitting error on an EventEmitter), but it should not do both. If any operational error can be delivered asynchronously, then all operational errors should be delivered asynchronously
+
+Check out the following function example. Note it's documentation on the arguments and how it is anticipating input errors. Also note the callback.
+
+* The arguments, their types, and other constraints on their values are clearly documented.
+
+* The function is strict in what arguments it accepts and it throws errors (programmer errors) when it gets invalid input.
+
+* The set of possible operational errors is documented. The different "name" values are used to distinguish logically different errors, and "errno" is used to get detailed information for system errors.
+
+* The way errors are delivered is documented (callback is invoked upon failure.)
+
+* The returned errors have "remoteIp" and "remotePort" fields so that a user could define a custom error message (for example, when the port number is implied, as it would be with an HTTP client).
+
+* Although it should be obvious, the state after a failed connections clearly documented: any sockets that were opened will have been closed already.
+
+```javascript
+/*
+ * Make a TCP connection to the given IPv4 address.  Arguments:
+ *
+ *    ip4addr        a string representing a valid IPv4 address
+ *
+ *    tcpPort        a positive integer representing a valid TCP port
+ *
+ *    timeout        a positive integer denoting the number of milliseconds
+ *                   to wait for a response from the remote server before
+ *                   considering the connection to have failed.
+ *
+ *    callback       invoked when the connection succeeds or fails.  Upon
+ *                   success, callback is invoked as callback(null, socket),
+ *                   where `socket` is a Node net.Socket object.  Upon failure,
+ *                   callback is invoked as callback(err) instead.
+ *
+ * This function may fail for several reasons:
+ *
+ *    SystemError    For "connection refused" and "host unreachable" and other
+ *                   errors returned by the connect(2) system call.  For these
+ *                   errors, err.errno will be set to the actual errno symbolic
+ *                   name.
+ *
+ *    TimeoutError   Emitted if "timeout" milliseconds elapse without
+ *                   successfully completing the connection.
+ *
+ * All errors will have the conventional "remoteIp" and "remotePort" properties.
+ * After any error, any socket that was created will be closed.
+ */
+function connect(ip4addr, tcpPort, timeout, callback) {
+  assert.equal(typeof (ip4addr), 'string',
+      "argument 'ip4addr' must be a string");
+  assert.ok(net.isIPv4(ip4addr),
+      "argument 'ip4addr' must be a valid IPv4 address");
+  assert.equal(typeof (tcpPort), 'number',
+      "argument 'tcpPort' must be a number");
+  assert.ok(!isNaN(tcpPort) && tcpPort > 0 && tcpPort < 65536,
+      "argument 'tcpPort' must be a positive integer between 1 and 65535");
+  assert.equal(typeof (timeout), 'number',
+      "argument 'timeout' must be a number");
+  assert.ok(!isNaN(timeout) && timeout > 0,
+      "argument 'timeout' must be a positive integer");
+  assert.equal(typeof (callback), 'function');
+
+  /* do work */
+}
+```
+
+* Tips from [Joyent](https://www.joyent.com/node-js/production/design/errors)
+
+* Learn to distinguish between operational errors, which are anticipatable, unavoidable errors, even in correct programs (e.g., failing to connect to a server), and programmer errors, which are bugs in the program.
+
+* Operational errors can and should be handled. Programmer errors cannot be handled or reliably recovered from (nor should they be), and attempting to do so makes them harder to debug.
+
+* A given function should deliver operational errors either synchronously (with throw) or asynchronously (with a callback or event emitter), but not both. A user should be able to use try/catch or handle errors in the callback, but should never need both. In general, using throw and expecting a caller to use try/catch is pretty rare, since it's not common in Node.js for synchronous functions to have operational errors. (The main exception are user input validation functions like JSON.parse.)
+
+* When writing a new function, document clearly the arguments that your function expects, their types, any other constraints (e.g., "must be a valid IP address"), the operational errors that can legitimately happen (e.g., failure to resolve a hostname, failure to connect to a server, any server-side error), and how those errors are delivered to the caller (synchronously, using throw, or asynchronously, using a callback or event emitter).
+
+* Missing or invalid arguments are programmer errors, and you should always throw when that happens. There may be gray area around what parameters the author decides are acceptable, but if you pass a function something other than what it's documented to accept, that's always a programmer error.
+
+* When delivering errors, use the standard Error class and its standard properties. Add as much additional information as may be useful in separate properties. Where possible, use conventional property names
 
 Let's look at some examples of error handling. Note these examples have been written in an html doc.
+
+
 
 * Given:
 
@@ -1141,13 +1224,9 @@ How's that work?
 
 
 
+* Let's also look up how regExs and their constructors work
 
 
-return str.match(/"[^"]*"/g);
-
-
-
-* Let's also look up how regExs and their constructor work
 
 
 * Resources:
@@ -1157,6 +1236,5 @@ return str.match(/"[^"]*"/g);
 
 * Exercises:
 
-[Regex Paper Scissors](https://codegolf.stackexchange.com/questions/129941/regex-paper-scissors-lizard-spock)
 [Regex Adventure](https://github.com/workshopper/regex-adventure)
 [Regex @ FreeCodeCamp](https://www.freecodecamp.com/challenges/sift-through-text-with-regular-expressions)
