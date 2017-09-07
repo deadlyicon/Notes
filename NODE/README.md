@@ -19,6 +19,7 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 7. [HTTP](#HTTP)
 8. [BABEL](#BABEL)
 9. [Webpack](#Webpack)
+10. [Debuggin in Node](#Debugging-in-Node)
 
 
 
@@ -230,7 +231,49 @@ var readMe = fs.readFile('readMe.txt', 'utf8', function(err, data){
 
 * The above is a better way to write your code as it will be faster. This is because it's not blocking and the computer can continue to execute more code while the filesystem is looking up the file.
 
-* More notes on ```fs```
+
+* Opening a file:
+
+You would use the following. Note the callback function will require two prams, ```err``` and ```fd```.
+
+```fs.open(path, flags[, mode], callback )```
+
+For example:
+
+```javascript
+//Async opening a file
+console.log('Going to open file!');
+fs.open('input.txt', 'r+', (err, fd) => {
+  if (err) {
+    return console.error(err);
+  }
+  console.log('File opened successfully!');
+});
+```
+
+The above opens the file ```input.txt``` which is in the current directory. note the ```r+``` flag, which means open the file for reading and writing. a List of flags can be found [here](https://www.tutorialspoint.com/nodejs/nodejs_file_system.htm)
+
+* Getting information about a file:
+
+```fs.stat(path, callback)```
+
+fs.Sats has a bunch of handy methods:
+
+| Method | Description |
+|--------|:-----------:|
+|stats.isFile() | Returns true if file type of a simple file. |
+
+
+stats.isDirectory() Returns true if file type of a directory.
+stats.isBlockDevice() Returns true if file type of a block device.
+stats.isCharacterDevice() Returns true if file type of a character device.
+stats.isSymbolicLink()  Returns true if file type of a symbolic link.
+stats.isFIFO()  Returns true if file type of a FIFO.
+stats.isSocket()  Returns true if file type of asocket.
+
+
+
+
 
 <a name="Editing-the-file-system"></a>
 ## Editing the file system
@@ -674,3 +717,15 @@ Read more here on the [official site](https://webpack.js.org/concepts/)
 
 [Basic Setup Example](https://webpack.js.org/guides/getting-started/)
 [Asset Management](https://webpack.js.org/guides/asset-management/)
+
+
+<a name=Debugging-in-Node></a>
+## Debugging in Node
+
+You can execute a Node.js app and have it step through the script slowly, one step at a time. To do this you could use ```--inspect``` and ```---debug-brk``` flags, and then copy a url. However we've installed the ```inspect``` module through npm, so now you can type this in CL:
+
+```bash
+inspect --debug-brk app.js
+```
+
+This will open a web page and you can really see what's going in your web app.
