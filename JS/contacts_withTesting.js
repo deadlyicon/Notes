@@ -1,6 +1,19 @@
-let contactStorage = [];
 
+let contactStorage = [];
+let errCount = 0;
+let errLog = [];
+
+// Adds individual contacts to contactStorage.
+// Arguments: First name, last name and email
 const addContact = function(firstName, lastName, email) {
+
+  //check if args are strings
+  //if not, throw obejct with errerouns data
+  console.assert((typeof firstName == 'string' &&
+                  typeof lastName == 'string' &&
+                  typeof email == 'string'), 'First: ' + firstName + ' , Last: ' + lastName + ' , Email: ' + email);
+
+  //arguments are strings, push them to the contactStorage
   contactStorage.push({
     fullName: firstName + ' ' + lastName,
     email: email,
@@ -8,12 +21,20 @@ const addContact = function(firstName, lastName, email) {
 };
 
 
+// Sends contacts to addContact() to be added to the contact storage
+// Arugments: an array of contacts with .first_name, .lase_name, .email properties
 const addContacts = function(contacts) {
   console.log('Loading contact data...');
 
-  //send contact data to addContact()
+  //Send current contact to addContact(), catch and log any errors
   for (var i = 0; i < contacts.length; i++) {
-    addContact( contacts[i].first_name, contacts[i].last_name, contacts[i].email);
+    try {
+      addContact( contacts[i].first_name, contacts[i].last_name, contacts[i].email);
+    } catch (err){
+      //Increment up the error count and log the error message to the errLog
+      errCount++;
+      errLog.push(err.message);
+    }
   }
   console.log('...Finished loading data');
 };
@@ -23,11 +44,9 @@ const determineLongest = function(array, key){
   let longest = array.map((item) => {
     return item[key].length;
     });
-
   longest = longest.sort(function(a,b){
     return b - a;
   })[0];
-
   return longest;
 };
 
@@ -61,6 +80,15 @@ const printContacts = function() {
 
   //print the final line.
   console.log('|' + '-'.repeat(longestNameLength + 2) + '+' + '-'.repeat(longestEmailLength + 2) + '|');
+
+  //if any errors occured, print them
+  if (errCount > 0) {
+    console.log('\nCould not import ' + errCount + ' contact(s).');
+    for (var i = 0; i < errCount; i++) {
+      console.log(errLog[i]);
+    }
+  }
+
 };
 
 
@@ -77,7 +105,7 @@ addContacts([
     "email": "tvibert0@illinois.edu",
   },
   {
-    "first_name": "55",
+    "first_name": 55,
     // "first_name": "Tova",
     "last_name": "Myall",
     "email": "tmyall1@instagram.com",

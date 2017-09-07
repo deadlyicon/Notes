@@ -6,6 +6,7 @@
   * [Array soriting](#Array-Sorting)
 2. [Objects](#Objects)
 3. [Functions](#Functions)
+  * [Arrow Functions](#Arrow-Functions)
 4. [Closure](#Closure)
 5. [getElementById](#getElementById)
 6. [Callbacks](#Callbacks)
@@ -13,8 +14,11 @@
 9. [MVC](#MVC)
 10. [String Manipulation](#String-Manipulation)
 11. [Error Handling](#Error-Handling)
+  * [Stack Traces](#Stack-Traces)
 12. [Regular Expressions](#Regular-Expressions)
 13. [How to red outline elements](#How-to-red-outline-elements)
+14. [Super Simple Testing](#Super-Simple-Testing)
+
 
 <a name="Array-Methods"></a>
 ## Array Methods
@@ -366,6 +370,11 @@ var sayWoohoo = function(){
 
 An IIFE is often used to create scope to encapsulate modules. Within the module there is a private scope that is self-contained and safe from unwanted or accidental modification. This technique, called the module pattern, is a powerful example of using closures to manage scope, and it’s heavily used in many of the modern JavaScript libraries (jQuery and Underscore, for example).
 
+
+<a name="Arrow-Functions"></a>
+## Arrow Functions
+
+[Read more here](https://codeburst.io/javascript-arrow-functions-for-beginners-926947fc0cdc)
 
 
 <a name="Closure"></a>
@@ -1053,9 +1062,121 @@ try {
 
 When an error is generated it usually has at least three properties. ```name```, ```message```, and ```stack```.
 
-## TODO: get methods
 * Let's make some notes about ```get``` methods, or [getters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get).
 
+
+
+<a name="Stack-Traces"></a>
+## Stack Traces
+
+
+
+* Whenever there’s a function call it gets pushed to the top of the stack. After it finishes running it is removed from the top of the stack.
+
+For example, running the following in REPL:
+
+```javascript
+function c() {
+    console.log('c');
+}
+
+function b() {
+    console.log('b');
+    c();
+}
+
+function a() {
+    console.log('a');
+    b();
+}
+
+a();
+```
+
+Will provide this:
+```
+Trace
+    at c (repl:3:9)
+    at b (repl:3:1)
+    at a (repl:3:1)
+    at repl:1:1
+    at ContextifyScript.Script.runInThisContext (vm.js:44:33)
+    at REPLServer.defaultEval (repl.js:239:29)
+    at bound (domain.js:301:14)
+    at REPLServer.runBound [as eval] (domain.js:314:12)
+    at REPLServer.onLine (repl.js:440:10)
+    at emitOne (events.js:120:20)
+undefined
+```
+
+As we can see here we have a, b and c when the stack gets printed from inside c.
+
+Now, if we print the stack trace from inside b after c finishes running we will be able to see it was already removed from the top of the stack, so we will only have a and b.
+
+```
+Trace
+    at b (repl:4:9)
+    at a (repl:3:1)
+    at repl:1:1  // <-- For now feel free to ignore anything below this point, these are Node's internals
+    at realRunInThisContextScript (vm.js:22:35)
+    at sigintHandlersWrap (vm.js:98:12)
+    at ContextifyScript.Script.runInThisContext (vm.js:24:12)
+    at REPLServer.defaultEval (repl.js:313:29)
+    at bound (domain.js:280:14)
+    at REPLServer.runBound [as eval] (domain.js:293:12)
+    at REPLServer.onLine (repl.js:513:10)
+```
+
+**In a nutshell: you call things and they get pushed to the top of the stack. When they finish running they get popped out of it.**
+
+* An error’s stack trace contains all the stack frames until its own constructor function.
+
+[Here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype) is specific information about Error objects
+
+
+You can next try blocks like so:
+
+```javascript
+try {
+    try {
+        throw new Error('Nested error.'); // The error thrown here will be caught by its own `catch` clause
+    } catch (nestedErr) {
+        console.log('Nested catch'); // This runs
+    }
+} catch (err) {
+    console.log('This will not run.');
+}
+```
+
+You can even next finally statments in try blocks:
+
+```javascript
+try {
+    throw new Error('First error');
+} catch (err) {
+    console.log('First catch running');
+    try {
+        throw new Error('Second error');
+    } catch (nestedErr) {
+        console.log('Second catch running.');
+    }
+}
+try {
+    console.log('The try block is running...');
+} finally {
+    try {
+        throw new Error('Error inside finally.');
+    } catch (err) {
+        console.log('Caught an error inside the finally block.');
+    }
+}
+```
+
+```javascript
+Error.captureStackTraceFunction(myObj, function <optional>)
+```
+
+The ```Error.captureStackTrace``` function takes an object as first argument and, optionally, a function as the second one. What capture stack trace does is capturing the current stack trace (obviously) and creating a stack property in the target object to store it. If the second argument is provided, the function passed will be considered the ending point of the call stack and therefore the stack trace will only display the calls that happened before this function was called.
 
 
 <a name="Regular-Expressions"></a>
@@ -1259,4 +1380,28 @@ on right of window click plus button to create new style.
   outline: 1px dotted red;
 }
 ```
+
+<a name="Super-Simple-Testing"></a>
+## Super Simple Testing
+
+How to test your code manually, without the use use of testing libraries such as ```jasmine``` or ```mocha```.
+
+* What is a test?
+  A test is a true/false value against a return value and an expected value.
+
+* How does ```console.assert()``` work for simple tests?
+  ```console.assert``` works like this:
+
+```javascript
+// .assert((function(args) === (expectedValue), message)
+console.assert(add(10,5) === 15, 'expected something esle');
+```
+
+Note that we are passing a function and args as an argument for ```console.assert```. If the ```===``` operator returns false, an error is thrown with the accompanying message.
+
+[Mozilla docs on console.assert](https://developer.mozilla.org/en-US/docs/Web/API/console/assert)
+[Node docs on assert](https://nodejs.org/api/assert.html)
+
+
+
 
