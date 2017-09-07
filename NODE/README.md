@@ -261,15 +261,13 @@ fs.Sats has a bunch of handy methods:
 
 | Method | Description |
 |--------|:-----------:|
-|stats.isFile() | Returns true if file type of a simple file. |
-
-
-stats.isDirectory() Returns true if file type of a directory.
-stats.isBlockDevice() Returns true if file type of a block device.
-stats.isCharacterDevice() Returns true if file type of a character device.
-stats.isSymbolicLink()  Returns true if file type of a symbolic link.
-stats.isFIFO()  Returns true if file type of a FIFO.
-stats.isSocket()  Returns true if file type of asocket.
+| stats.isFile() | Returns true if file type of a simple file. | |
+| stats.isDirectory() | Returns true if file type of a directory. |
+| stats.isBlockDevice() | Returns true if file type of a block device. |
+| stats.isCharacterDevice() | Returns true if file type of a character device. |
+| stats.isSymbolicLink() | Returns true if file type of a symbolic link. |
+| stats.isFIFO() | Returns true if file type of a FIFO. |
+| stats.isSocket() | Returns true if file type of asocket. |
 
 
 
