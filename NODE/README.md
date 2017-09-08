@@ -13,13 +13,13 @@ Basically anything you could do with PHP or Ruby you can now do with Javascript 
 1. [Modules](#Modules)
 2. [Node Console](#Node-Console)
 3. [Accessing the File System with Node](#Accessing-the-File-System-with-Node)
-4. [Editing the File System](#Editing-the-file-system)
-5. [REPL](#REPL)
-6. [NPM](#NPM)
-7. [HTTP](#HTTP)
-8. [BABEL](#BABEL)
-9. [Webpack](#Webpack)
-10. [Debuggin in Node](#Debugging-in-Node)
+  * [Pipes](#Pipes)
+4. [REPL](#REPL)
+5. [NPM](#NPM)
+6. [HTTP](#HTTP)
+7. [BABEL](#BABEL)
+8. [Webpack](#Webpack)
+9. [Debuggin in Node](#Debugging-in-Node)
 
 
 
@@ -197,7 +197,7 @@ console.log(readMe);
 ```fs.readFileSync('readMe.txt', 'utf8');``` Is a synchronous method, meaning that it will need to complete before moving on to the next code. This is also knowns as blocking code because it blocks the computer from continuing until it is completed. The file name is relative in this example, and ```utf8``` is passed as the second parameter to indicate the type of encoding.
 
 
-* Here is the Asynchronous method for reading and writing files to disk:
+* **Here is the Asynchronous method for reading and writing files to disk:**
 
 ```javascript
 var fs = require('fs');
@@ -207,7 +207,7 @@ var readMe = fs.readFile('readMe.txt', 'utf8', function(err, data){
 });
 ```
 
-```fs.readFile('readMe.txt', 'utf8', function(err, data){};``` is the synchronous method and as such you need to pass it a callback function to run when readFile() has completed. In that function you need to pass it an err, if there was one, and then the data. Finally, the callback function itself does something once readFile() has completed. **The benefit of asynchronous is that we are not blocking the code below. For example:**
+```fs.readFile('readMe.txt', 'utf8', function(err, data){};``` is the asynchronous method and as such you need to pass it a callback function to run when readFile() has completed. In that function you need to pass it an err, if there was one, and then the data. Finally, the callback function itself does something once readFile() has completed. **The benefit of asynchronous is that we are not blocking the code below. For example:**
 ```javascript
 var fs = require('fs');
 
@@ -229,10 +229,12 @@ var readMe = fs.readFile('readMe.txt', 'utf8', function(err, data){
 });
 ```
 
-* The above is a better way to write your code as it will be faster. This is because it's not blocking and the computer can continue to execute more code while the filesystem is looking up the file.
+The above is a better way to write your code as it will be faster. This is because it's not blocking and the computer can continue to execute more code while the filesystem is looking up the file.
 
 
-* Opening a file:
+
+
+* **Opening a file:**
 
 You would use the following. Note the callback function will require two prams, ```err``` and ```fd```.
 
@@ -253,7 +255,7 @@ fs.open('input.txt', 'r+', (err, fd) => {
 
 The above opens the file ```input.txt``` which is in the current directory. note the ```r+``` flag, which means open the file for reading and writing. a List of flags can be found [here](https://www.tutorialspoint.com/nodejs/nodejs_file_system.htm)
 
-* Getting information about a file:
+* **Getting information about a file:**
 
 ```fs.stat(path, callback)```
 
@@ -267,31 +269,288 @@ fs.Sats has a bunch of handy methods:
 | stats.isCharacterDevice() | Returns true if file type of a character device. |
 | stats.isSymbolicLink() | Returns true if file type of a symbolic link. |
 | stats.isFIFO() | Returns true if file type of a FIFO. |
-| stats.isSocket() | Returns true if file type of asocket. |
+| stats.isSocket() | Returns true if file type of a socket. |
 
 
-
-
-
-<a name="Editing-the-file-system"></a>
-## Editing the file system
-* How to delete files
-
-Easy enough:
+Here is a simple script for checking the stats of a file, in this case, ```input.txt```
 ```javascript
-fs.unlink('fileName.txt');
+console.log('Going to get file info!');
+fs.stat('input.txt', (err, stats) => {
+  if (err) {
+    return console.error(err);
+  }
+
+  console.log(stats);
+  console.log('Got file info successfully');
+
+  //check file type
+  console.log('isFile ? ' + stats.isFile());
+  console.log('isDirectory ? ' + stats.isDirectory());
+  // console.log();
+});
+```
+
+Note that we are also checking if the file is a simple file as well as if it is a directory at the end of this call back function.
+
+* **How to write a file**
+
+```fs.writeFile(filename, data[, options], callback)```
+
+This method will overwrite a file that already exists. If you want to add to a file you should use a different method available. ```filename``` should include the path. ```data``` is the thing to be written, and options will hold {encoding, mode, flag}. By default, encoding is utf8, mode is octal value 0666 and flag is 'w'.
+
+```javascript
+//Async writing a file
+var fs = require('fs');
+
+console.log('Going to wrtie into existing file');
+fs.writeFile('input.txt', 'Such write, wow much amaze\n', (err) => {
+  if (err) {
+    return console.error(err);
+  }
+
+  console.log('Data written successfully');
+  console.log('Reading newly written data');
+
+  fs.readFile('input.txt', (err, data) => {
+    if (err) {
+      return console.error(err);
+    }
+    console.log('Async read: ' + data.toString());
+  });
+});
 ```
 
 
-* Creating and Removing Directories with Node
+* **How to read a file to a buffer**
+
+```fs.read(fd, buffer, offset, length, position, callback)```
+
+This method will use a [file descripter](https://stackoverflow.com/questions/36771266/what-is-the-use-of-fd-file-descriptor-in-node-js) ```fd``` to read the file. If you want to read the file directoy using the name then you should use a different method. The file will be read to a buffer object, which is node specific. Each byte in the buffer object will hold a coorsponding byte from the file read.
+
+* **fd** - This is the file descriptor returned by fs.open();
+* **buffer** - This is the buffer that the data will be written to.
+* **offset** - This is the offset in the buffer to start writing at.
+* **length** - This is an integer specifying the number of bytes to read.
+* **position** - This is an integer specifying where to being reading from the file. If the position is null, data will read from the current file position.
+* **callback** - The callback function which gets three args; ```(err, bytesRead, buffer)```.
+
+Example:
+
+```javascript
+var buf = new Buffer(1024);
+
+console.log('Going to open an existing file');
+fs.open('input.txt', 'r+', (err, fd) => {
+  if (err) {
+    return console.error(err);
+  }
+
+  console.log('File opened successfully');
+  console.log('Going to read file');
+
+  fs.read(fd, buf, 0, buf.length, 0, (err, bytes) => {
+    if (err) {
+      console.log(err);
+    }
+
+    console.log(bytes + ' bytes read');
+
+    //print olny read bytes to avoide junk
+    console.log(bytes);
+    if(bytes > 0){
+      console.log(buf.slice(0, bytes).toString());
+    }
+  });
+});
+```
+
+* Breaking down the above code
+
+1. We create a new buffer object that is 1024 bytes large, 1 meg.
+2. We open a file with fs.open, ```r+``` means read/write and throw exception if the file doesn't exist.
+3. Diplay some text
+4. Read that file. Pass it the file descriptor, ```fd```, and the buffer object, ```buf```, that the data will be written to.
+5. Offset by 0 to start in the buffer, go as long as the buffer is long and start at position 0 of the current file.
+6. The callback function will take and err if it happens, and in this case just bhe bytesRead as ```bytes```.
+7. So now we have a buffer with some data, and a record of how many bytes were in the original file.
+8. We print out what is in the buffer, by slicing the buffer data, starting at 0 until how ever many bytes we read, and then turn that series of numbers and letters into a human readable string.
+
+
+* **Closing a File**
+
+```fs.close(fd, callback)```
+
+No arguments other that a possibe exection are given to the completion callback.
+
+Adding to our above examples we can put the ```fs.close()``` method call at the end of our script:
+
+```javascript
+console.log('Going to open an existing file...');
+fs.open('input.txt', 'r+', (err, fd)=>{
+  if (err) {
+    return console.error(err);
+  }
+
+  console.log('Successfully opened file!');
+  console.log('Going to read the file...');
+
+  fs.read(fd, buf, 0, buf.length, 0, (err, bytes) => {
+    if (err) {
+      console.log(err);
+    }
+
+    //Print only bytes read
+    if(bytes > 0) {
+      console.log(buf.slice(0, bytes).toString());
+    }
+
+    //Close opened file
+    fs.close(fd, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log('File closed successfully');
+    });
+  });
+});
+```
+
+* **Truncating a file**
+
+```fs.ftruncate(fd, len, callback(err))```
+
+Here, ```len``` is the length of the file after which the file will be truncated. The callback function only takes a possible exception.
+
+This simply cuts off a file at a certain point, leaving everything that came before ```len```.
+
+```javascript
+console.log('Going to open file...');
+fs.open('input.txt', 'r+', (err, fd) =>{
+  if (err) {
+    return console.error(err);
+  }
+  console.log('File opened successfully!');
+  console.log('Going to truncate the file after 10 bytes...');
+
+  //truncate open file
+  fs.ftruncate(fd, 10, (err) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log('File truncated successfully!');
+    console.log('Going to read the same file...');
+
+    fs.read(fd, buf, 0, buf.length, 0, (err, bytes) => {
+      if (err) {
+        console.log(err);
+      }
+
+      //print only read bytes
+      if (bytes > 0) {
+        console.log(buf.slice(0, bytes).toString());
+      }
+
+      //Close the opened file
+      fs.close(fd, (err)=>{
+        if (err) {
+          console.log(err);
+        }
+        console.log('File closed successfully!');
+      });
+    });
+  });
+});
+```
+
+Now when the file is read, it will only be 10 bytes long, or 10 characters.
+
+
+* **How to delete files**
+
+```fs.unlink(path, callback)```
+
+Here the call back only takes a possible exception. ```path``` is the file name including the path to it.
+
+```javascript
+console.log('Going to delete an existing file...');
+fs.unlink('input.txt', (err) => {
+  if (err) {
+    return console.error(err);
+  }
+  console.log('File deleted successfully');
+});
+```
+
+* **Creating and Removing Directories**
+
 **Synchronous version:**
 ```javascript
 fs.mkdirSync('stuff'); //make dir
 fs.rmdirSync('stuff'); //remove dir
 ```
 
+* **Createing a Directory**
+```fs.mkdir(path[, mode], callback)```
 
-**Asynchronous version:**
+* path is the directory name including path.
+* mode is the diretory permission to be set. Defaults to 0777.
+* callback get's nothing other that a possible exception.
+
+```javascript
+console.log('Going to create a directory /tmp/test');
+fs.mkdir('/tmp/test', (err) => {
+  if (err) {
+    return console.error(err);
+  }
+  console.log('Directory created successfully!');
+});
+```
+
+* **Read a Directory**
+```fs.readdir(path, callback)```
+
+Here, the callback function gets two args, ```(err, files)```. Files is an array of the neams of the files in the directory excluding ```.``` and ```..```, provided by fs.readdir()
+
+```javascript
+//Reading a directory
+console.log('Going to read directory /tmp');
+fs.readdir('/tmp/', (err, files) => {
+  if (err) {
+    return console.error(err);
+  }
+  files.forEach(file => {
+    console.log(file);
+  });
+});
+```
+
+* **Removing a directory**
+
+```fs.rmdir(path, callback)```
+
+Callback only gets a possible execption
+
+```javascript
+//Removing a directory
+console.log('Going to delete the directory /tmp/test');
+fs.rmdir('/tmp/test', (err) => {
+  if (err) {
+    return console.error(err);
+  }
+
+  console.log('Going to read directory /tmp');
+
+  fs.readdir('/tmp/', (err, files) => {
+    if (err) {
+      return console.error(err);
+    }
+    files.forEach(file => console.log(file));
+  });
+});
+```
+
+
+**More examples of creating and remove directories**
 ```javascript
 var fs = require('fs');
 
@@ -319,6 +578,52 @@ fs.unlink('./stuff/writeMe.txt', function(){
 
 1. In order to delete folders we must first clear them out. So, first run ```fs.unlink()```, passing it the file to be deleted.
 2. Also, pass the method a callback function, this time use ```fs.rmdir()``` which will delete our folder only after it is empty but in a non-blocking way.
+
+
+<a name='Pipes'></a>
+## Pipes
+
+A pipe ```|``` operator is a powerfull command line tool.
+It passes the output (stdout) of a previous command to the input (stdin) of the next one, or to the shell. This is a method of chaining commands together. [source](http://tldp.org/LDP/abs/html/special-chars.html)
+
+You can use use ```fs.readFileSync('/dev/stdin/');``` to read or get values from the standard input. For example, you can use this code to convert anything on the command like to uppercase, either a file or an echo parameter
+
+```javascript
+const fs = require('fs');
+
+const upcase = fs.readFileSync('/dev/stdin')
+  .toString()
+  .toUpperCase();
+
+process.stdout.write(upcase);
+```
+
+Then run this:
+```bash
+echo 'ooo we can do' | node upcase.js
+```
+
+The output is ```OOO WE CAN DO```. Here we turn whatever was passed to stdin, made it a string and made that string uppercase using built in functions.
+
+Given a file with a bunch of words, you could use the following script and a ```|``` to count how many words were in the file.
+
+```javascript
+const fs = require('fs');
+const numberOfWords = fs.readFileSync('/dev/stdin')
+  .toString()
+  .split(/\s+/)
+  .length;
+console.log(numberOfWords+' words');
+```
+
+```bash
+echo 'How many words are in here I wonder' | node word_count.js
+```
+
+Output is ```9 words```.
+
+**YAY PIPES**
+
 
 
 <a name="REPL"></a>
